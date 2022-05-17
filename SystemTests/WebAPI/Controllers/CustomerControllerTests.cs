@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedResources.Services;
 using System;
 using System.Linq;
+using SystemTests.Services;
 using WebAPI.Controllers;
 using WebAPI.DTO.Customer;
 using WebAPI.Infrastructure.Profiles;
@@ -22,11 +22,13 @@ public class AdsControllerTest
     private readonly APIDbContext _context;
     private readonly CreateUniqeService _creator;
     private readonly CusotmerController _sut;
+    private readonly ITestAPIService _tester;
 
     public string TestName { get; set; }
 
     public AdsControllerTest()
     {
+        _tester = new TestAPIService();
         var options = new DbContextOptionsBuilder<APIDbContext>()
             .UseInMemoryDatabase(databaseName: "Test")
             .Options;
@@ -35,11 +37,11 @@ public class AdsControllerTest
 
         TestName = Guid.NewGuid().ToString();
 
-        addAdvertisement(TestName);
+        addCustomer(TestName);
 
         _sut = createAPI();
     }
-    private CreateUniqueStatus addAdvertisement(string name) =>
+    private CreateUniqueStatus addCustomer(string name) =>
         _creator.CreateIfNotExists(
             _context,
             _context.Customers!,
@@ -59,29 +61,15 @@ public class AdsControllerTest
         var app = new CusotmerController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
         return app;
     }
-    //==================================================================================================================
-    private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare)
-    {
-        var StatusCode = 0;
-        var prop = response.GetType().GetProperty(nameof(StatusCode));
-        StatusCode = (int)prop!.GetValue(response)!;
-        return returnCodeCompare.Equals(StatusCode);
-    }
-    private bool APITestResponseCode<ReturnType>(Func<ReturnType> ActAction, Func<ReturnType, bool> AssertAction) =>
-        AssertAction(ActAction());
-    //==================================================================================================================
     //HTTP GET
     [TestMethod]
     public void When_Call_Get_Method_All_Items_Should_Return()
     {
-        //Arrange
         var returnCodeCompare = StatusCodes.Status200OK;
-        //Act
-        //Assert
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.GetAllCustomers(),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -93,9 +81,9 @@ public class AdsControllerTest
         var existingItem = _context.Customers!.First();
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.GetCustomerById(existingItem.Id),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
 
@@ -107,9 +95,9 @@ public class AdsControllerTest
         var nonExistingID = -1;
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.GetCustomerById(nonExistingID),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -121,14 +109,14 @@ public class AdsControllerTest
         var name = Guid.NewGuid().ToString();
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.AddNewCustomer(
                     new CustomerPostDTO
                     {
                         Name = name
                     }
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -140,9 +128,9 @@ public class AdsControllerTest
         var nonExistingID = -1;
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.ReplaceCustomerByID(nonExistingID, null!),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -154,7 +142,7 @@ public class AdsControllerTest
         var existingID = existingItem.Id;
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.ReplaceCustomerByID(
                     existingID,
                     new CustomerPutDTO
@@ -162,7 +150,7 @@ public class AdsControllerTest
                         Name = existingItem.Name
                     }
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -174,11 +162,11 @@ public class AdsControllerTest
         var nonExistingId = -1;
 
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.DeleteCustomerByID(
                     nonExistingId
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -188,12 +176,12 @@ public class AdsControllerTest
         var returnCodeCompare = StatusCodes.Status204NoContent;
         var existingID = _context.Customers!.First().Id;
 
-        Assert.AreEqual(// det som händer ät att ASSERT får ett false värde?
-            APITestResponseCode(
+        Assert.AreEqual(
+            _tester.APITestResponseCode(
                 () => _sut.DeleteCustomerByID(
                     existingID
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             ), true
         );
     }
@@ -205,12 +193,12 @@ public class AdsControllerTest
         var nonExistingId = -1;
     
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.UpdateCustomerPropertyByID(
                     nonExistingId,
                     null!
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
@@ -224,12 +212,12 @@ public class AdsControllerTest
         body.Replace(customer => customer.Name, "This is the new Value");
     
         Assert.IsTrue(
-            APITestResponseCode(
+            _tester.APITestResponseCode(
                 () => _sut.UpdateCustomerPropertyByID(
                     existingID,
                     body
                 ),
-                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+                response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
     }
