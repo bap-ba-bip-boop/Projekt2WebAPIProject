@@ -8,6 +8,7 @@ using System.Linq;
 using SystemTests.Services;
 using WebAPI.Controllers;
 using WebAPI.DTO.Customer;
+using WebAPI.DTO.Project;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Model;
 using WebAPI.Services;
@@ -16,45 +17,46 @@ using static SharedResources.Services.ICreateUniqeService;
 namespace SystemTests.WebAPI.Controllers;
 
 [TestClass]
-public class CustomerControllerTest
+public class ProjectControllerTest
 {
     private readonly APIDbContext _context;
     private readonly CreateUniqeService _creator;
-    private readonly CusotmerController _sut;
+    private readonly ProjectController _sut;
     private readonly ITestAPIService _tester;
 
     public string TestName { get; set; }
 
-    public CustomerControllerTest()
+    public ProjectControllerTest()
     {
         _tester = new TestAPIService();
-        _context = TestDatabaseService.CreateTestContext(nameof(CustomerControllerTest));
+        _context = TestDatabaseService.CreateTestContext(nameof(ProjectControllerTest));
         _creator = new CreateUniqeService();
 
         TestName = Guid.NewGuid().ToString();
 
-        addCustomer(TestName);
+        addProject(TestName, 1);// change change change
 
         _sut = createAPI();
     }
-    private CreateUniqueStatus addCustomer(string name) =>
+    private CreateUniqueStatus addProject(string name, int customerId) =>
         _creator.CreateIfNotExists(
             _context,
-            _context.Customers!,
-            item => item.Name!.Equals(name),
-            new Customer
+            _context.Projects!,
+            item => item.ProjectName!.Equals(name),
+            new Project
             {
-                Name = name
+                ProjectName = name,
+                CustomerId = customerId
             }
         );
-    private CusotmerController createAPI()
+    private ProjectController createAPI()
     {
         var conf = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<CustomerProfile>();
+            cfg.AddProfile<ProjectProfile>();
         }
         );
-        var app = new CusotmerController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
+        var app = new ProjectController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
         return app;
     }
     //HTTP GET
@@ -64,7 +66,7 @@ public class CustomerControllerTest
         var returnCodeCompare = StatusCodes.Status200OK;
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.GetAllCustomers(),
+                () => _sut.GetAllProjects(),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
@@ -74,11 +76,11 @@ public class CustomerControllerTest
     public void When_Call_Get_Single_Method_With_Valid_Id()
     {
         var returnCodeCompare = StatusCodes.Status200OK;
-        var existingItem = _context.Customers!.First();
+        var existingItem = _context.Projects!.First();
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.GetCustomerById(existingItem.CustomerId),
+                () => _sut.GetProjectById(existingItem.ProjectId),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
@@ -88,11 +90,11 @@ public class CustomerControllerTest
     public void When_Call_Get_Single_Method_With_Invalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status404NotFound;
-        var nonExistingID = -1;
+        var nonExistingID = -1;// change change change
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.GetCustomerById(nonExistingID),
+                () => _sut.GetProjectById(nonExistingID),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
@@ -103,13 +105,15 @@ public class CustomerControllerTest
     {
         var returnCodeCompare = StatusCodes.Status201Created;
         var name = Guid.NewGuid().ToString();
+        var customerId = 1;// change change change
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.AddNewCustomer(
-                    new CustomerPostDTO
+                () => _sut.AddNewProject(
+                    new ProjectPostDTO
                     {
-                        Name = name
+                        ProjectName = name,
+                        CustomerId = customerId
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -125,7 +129,7 @@ public class CustomerControllerTest
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.ReplaceCustomerByID(nonExistingID, null!),
+                () => _sut.ReplaceProjectByID(nonExistingID, null!),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             )
         );
@@ -134,16 +138,17 @@ public class CustomerControllerTest
     public void When_Call_Put_With_Valalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingItem = _context.Customers!.First();
-        var existingID = existingItem.CustomerId;
+        var existingItem = _context.Projects!.First();
+        var existingID = existingItem.ProjectId;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.ReplaceCustomerByID(
+                () => _sut.ReplaceProjectByID(
                     existingID,
-                    new CustomerPutDTO
+                    new ProjectPutDTO
                     {
-                        Name = existingItem.Name
+                        ProjectName = existingItem.ProjectName,
+                        CustomerId = existingItem.CustomerId
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -159,7 +164,7 @@ public class CustomerControllerTest
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.DeleteCustomerByID(
+                () => _sut.DeleteProjectByID(
                     nonExistingId
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -170,11 +175,11 @@ public class CustomerControllerTest
     public void When_Call_Delete_With_Valalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Customers!.First().CustomerId;
+        var existingID = _context.Projects!.First().ProjectId;
 
         Assert.AreEqual(
             _tester.APITestResponseCode(
-                () => _sut.DeleteCustomerByID(
+                () => _sut.DeleteProjectByID(
                     existingID
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -190,7 +195,7 @@ public class CustomerControllerTest
     
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.UpdateCustomerPropertyByID(
+                () => _sut.UpdateProjectPropertyByID(
                     nonExistingId,
                     null!
                 ),
@@ -202,14 +207,14 @@ public class CustomerControllerTest
     public void When_Call_Patch_With_Valalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Customers!.First().CustomerId;
+        var existingID = _context.Projects!.First().ProjectId;
     
-        var body = new JsonPatchDocument<Customer>();
-        body.Replace(customer => customer.Name, "This is the new Value");
+        var body = new JsonPatchDocument<Project>();
+        body.Replace(project => project.ProjectName, "This is the new Value");
     
         Assert.IsTrue(
             _tester.APITestResponseCode(
-                () => _sut.UpdateCustomerPropertyByID(
+                () => _sut.UpdateProjectPropertyByID(
                     existingID,
                     body
                 ),

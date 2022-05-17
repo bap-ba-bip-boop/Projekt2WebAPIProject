@@ -33,7 +33,8 @@ _services
     .AddTransient<IDbLookupService, DbLookupService>();
 
 _services
-    .AddAutoMapper(typeof(CustomerProfile));
+    .AddAutoMapper(typeof(CustomerProfile))
+    .AddAutoMapper(typeof(ProjectProfile));
 
 var app = builder.Build();
 

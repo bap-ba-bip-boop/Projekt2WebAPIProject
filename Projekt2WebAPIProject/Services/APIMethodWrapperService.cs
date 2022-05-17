@@ -15,6 +15,6 @@ public class APIMethodWrapperService : IAPIMethodWrapperService
     {
         action();
         _context.SaveChanges();
-        return new NoContentResult();//StatusCodes.Status204NoContent;
+        return new NoContentResult();
     }
 }

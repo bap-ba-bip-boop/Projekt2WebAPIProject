@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SystemTests.Services;
 using WebAPI.Model;
 using WebAPI.Services;
 
@@ -14,10 +14,7 @@ public class APIMethodWrapperServiceTests
     private readonly APIDbContext _context;
     public APIMethodWrapperServiceTests()
     {
-        var options = new DbContextOptionsBuilder<APIDbContext>()
-            .UseInMemoryDatabase(databaseName: "Test")
-            .Options;
-        _context = new APIDbContext(options);
+        _context = TestDatabaseService.CreateTestContext(nameof(APIMethodWrapperServiceTests));
         _sut = new(_context!);
     }
     private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare) =>

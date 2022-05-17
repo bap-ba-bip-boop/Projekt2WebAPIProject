@@ -6,7 +6,7 @@ public class Customer
 {
 
     [Key]
-    public int Id { get; set; }
+    public int CustomerId { get; set; }
     [Required]
     [MaxLength(30)]
     public string? Name { get; set; }

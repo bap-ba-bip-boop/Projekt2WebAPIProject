@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedResources.Services;
 using System;
+using SystemTests.Services;
 using WebAPI.Model;
 using static SharedResources.Services.ICreateUniqeService;
 
@@ -17,18 +17,15 @@ public class CreateUniqueServiceTest
     private readonly ICreateUniqeService _sut;
     public CreateUniqueServiceTest()
     {
-        var options = new DbContextOptionsBuilder<APIDbContext>()
-            .UseInMemoryDatabase(databaseName: "Test")
-            .Options;
-        _context = new APIDbContext(options);
+        _context = TestDatabaseService.CreateTestContext(nameof(CreateUniqueServiceTest));
         _sut = new CreateUniqeService();
 
         TestName= Guid.NewGuid().ToString();
 
-        _ = addAdvertisement(TestName);
+        _ = addCustomer(TestName);
 
     }
-    private CreateUniqueStatus addAdvertisement(string name) =>
+    private CreateUniqueStatus addCustomer(string name) =>
         _sut.CreateIfNotExists(
             _context,
             _context.Customers!,
@@ -40,25 +37,19 @@ public class CreateUniqueServiceTest
     [TestMethod]
     public void When_Ad_Exists_Should_Return_AlreadyExists()
     {
-        //Arrange
         var name = TestName;
 
-        //Act
-        var returnStatus = addAdvertisement(name);
+        var returnStatus = addCustomer(name);
 
-        //Assert
         Assert.IsTrue(returnStatus == CreateUniqueStatus.AlreadyExists);
     }
     [TestMethod]
     public void When_Ad_Dont_Exists_Should_Return_Ok()
     {
-        //Arrange
         var title = Guid.NewGuid().ToString();
 
-        //Act
-        var returnStatus = addAdvertisement(title);
+        var returnStatus = addCustomer(title);
 
-        //Assert
         Assert.IsTrue(returnStatus == CreateUniqueStatus.Ok);
     }
 }
