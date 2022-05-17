@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using SharedResources.Services;
-using WebAPI.DTO.Customer;
 using WebAPI.DTO.Project;
 using WebAPI.Model;
 using WebAPI.Services;
@@ -11,7 +10,7 @@ using static SharedResources.Services.IDbLookupService;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("customer")]
+[Route("project")]
 public class ProjectController : ControllerBase
 {
     private readonly IMapper _mapper;
