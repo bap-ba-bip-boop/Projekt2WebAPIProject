@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using SharedResources.Services;
 using WebAPI.DTO.Customer;
@@ -76,6 +77,17 @@ public class CusotmerController : ControllerBase
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
                 () => _context.Customers!.Remove(customerToRemove)
+            );
+    }
+    [HttpPatch]
+    [Route("{Id}")]
+    public IActionResult UpdateCustomerPropertyByID(int Id, [FromBody] JsonPatchDocument<Customer> customerEntity)
+    {
+        var (status, customerToPatch) = _lookup.VerifyItemID(Id, nameof(Customer.Id), _context.Customers!);
+        return (status == ItemExistStatus.ItemDoesNotExist) ?
+            NotFound() :
+            _methodWrapepr.NonSafeHTTPMEthodWrapper(
+                ()=> customerEntity.ApplyTo(customerToPatch)
             );
     }
 }

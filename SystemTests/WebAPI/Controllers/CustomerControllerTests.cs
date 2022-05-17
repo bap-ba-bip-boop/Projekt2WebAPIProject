@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,6 +59,7 @@ public class AdsControllerTest
         var app = new CusotmerController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
         return app;
     }
+    //==================================================================================================================
     private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare)
     {
         var StatusCode = 0;
@@ -67,6 +69,7 @@ public class AdsControllerTest
     }
     private bool APITestResponseCode<ReturnType>(Func<ReturnType> ActAction, Func<ReturnType, bool> AssertAction) =>
         AssertAction(ActAction());
+    //==================================================================================================================
     //HTTP GET
     [TestMethod]
     public void When_Call_Get_Method_All_Items_Should_Return()
@@ -195,39 +198,39 @@ public class AdsControllerTest
         );
     }
     //HTTP PATCH
-    //[TestMethod]
-    //public void When_Call_Patch_With_Invalalid_Id()
-    //{
-    //    var returnCodeCompare = StatusCodes.Status404NotFound;
-    //    var nonExistingId = -1;
-    //
-    //    Assert.IsTrue(
-    //        APITestResponseCode(
-    //            () => _sut.PartialUpdateAdvertisement(
-    //                nonExistingId,
-    //                null
-    //            ),
-    //            response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
-    //        )
-    //    );
-    //}
-    //[TestMethod]
-    //public void When_Call_Patch_With_Valalid_Id()
-    //{
-    //    var returnCodeCompare = StatusCodes.Status204NoContent;
-    //    var existingID = _context.advertisements.First().Id;
-    //
-    //    var body = new JsonPatchDocument<Advertisement>();
-    //    body.Replace(Ad => Ad.FillerText, "This is the new Value");
-    //
-    //    Assert.IsTrue(
-    //        APITestResponseCode(
-    //            () => _sut.PartialUpdateAdvertisement(
-    //                existingID,
-    //                body
-    //            ),
-    //            response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
-    //        )
-    //    );
-    //}
+    [TestMethod]
+    public void When_Call_Patch_With_Invalalid_Id()
+    {
+        var returnCodeCompare = StatusCodes.Status404NotFound;
+        var nonExistingId = -1;
+    
+        Assert.IsTrue(
+            APITestResponseCode(
+                () => _sut.UpdateCustomerPropertyByID(
+                    nonExistingId,
+                    null!
+                ),
+                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+            )
+        );
+    }
+    [TestMethod]
+    public void When_Call_Patch_With_Valalid_Id()
+    {
+        var returnCodeCompare = StatusCodes.Status204NoContent;
+        var existingID = _context.Customers!.First().Id;
+    
+        var body = new JsonPatchDocument<Customer>();
+        body.Replace(customer => customer.Name, "This is the new Value");
+    
+        Assert.IsTrue(
+            APITestResponseCode(
+                () => _sut.UpdateCustomerPropertyByID(
+                    existingID,
+                    body
+                ),
+                response => DefaultAPIResponseCodeCheck(response, returnCodeCompare)
+            )
+        );
+    }
 }
