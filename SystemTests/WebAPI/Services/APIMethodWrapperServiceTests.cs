@@ -20,13 +20,8 @@ public class APIMethodWrapperServiceTests
         _context = new APIDbContext(options);
         _sut = new(_context!);
     }
-    private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare)
-    {
-        var StatusCode = ((StatusCodeResult)response).StatusCode;
-        //var prop = response.GetType().GetProperty(nameof(StatusCode));
-        //StatusCode = (int)prop!.GetValue(response)!;
-        return returnCodeCompare.Equals(StatusCode);
-    }
+    private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare) =>
+        returnCodeCompare.Equals( ((StatusCodeResult)response).StatusCode );
     [TestMethod]
     public void Should_Return_204NoContent()
     {
