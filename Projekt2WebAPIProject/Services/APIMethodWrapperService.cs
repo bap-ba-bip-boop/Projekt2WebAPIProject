@@ -11,10 +11,10 @@ public class APIMethodWrapperService : IAPIMethodWrapperService
     {
         _context = context;
     }
-    public NotFoundResult NonSafeHTTPMEthodWrapper(Action action)
+    public NoContentResult NonSafeHTTPMEthodWrapper(Action action)
     {
         action();
         _context.SaveChanges();
-        return new NotFoundResult();//StatusCodes.Status204NoContent;
+        return new NoContentResult();//StatusCodes.Status204NoContent;
     }
 }

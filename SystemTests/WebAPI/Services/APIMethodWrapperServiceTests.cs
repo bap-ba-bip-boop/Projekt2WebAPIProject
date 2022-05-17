@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WebAPI.Model;
 using WebAPI.Services;
 
 namespace SystemTests.WebAPI.Services;
@@ -12,13 +11,27 @@ namespace SystemTests.WebAPI.Services;
 public class APIMethodWrapperServiceTests
 {
     private readonly APIMethodWrapperService _sut;
+    private readonly APIDbContext _context;
     public APIMethodWrapperServiceTests()
     {
-        _sut = new();
+        var options = new DbContextOptionsBuilder<APIDbContext>()
+            .UseInMemoryDatabase(databaseName: "Test")
+            .Options;
+        _context = new APIDbContext(options);
+        _sut = new(_context!);
+    }
+    private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare)
+    {
+        var StatusCode = ((StatusCodeResult)response).StatusCode;
+        //var prop = response.GetType().GetProperty(nameof(StatusCode));
+        //StatusCode = (int)prop!.GetValue(response)!;
+        return returnCodeCompare.Equals(StatusCode);
     }
     [TestMethod]
-    public void ShouldReturn204NoContent()
+    public void Should_Return_204NoContent()
     {
+        var responseCode = StatusCodes.Status204NoContent;
 
+        Assert.IsTrue( DefaultAPIResponseCodeCheck(_sut.NonSafeHTTPMEthodWrapper( () => {}), responseCode ) );
     }
 }

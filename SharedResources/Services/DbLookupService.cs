@@ -9,7 +9,7 @@ public class DbLookupService : IDbLookupService
     {
         var itemType = typeof(DataType).GetProperty(IdProperty);
         var item = list.ToList().FirstOrDefault(item =>
-            itemType.GetValue(item).Equals(Id)
+            itemType!.GetValue(item)!.Equals(Id)
         ); ;
         return (item == default ?
             ItemExistStatus.ItemDoesNotExist :

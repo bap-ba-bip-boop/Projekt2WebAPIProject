@@ -5,6 +5,6 @@ namespace WebAPI.Services
 {
     public interface IAPIMethodWrapperService
     {
-        NotFoundResult NonSafeHTTPMEthodWrapper(Action action);
+        public NoContentResult NonSafeHTTPMEthodWrapper(Action action);
     }
 }

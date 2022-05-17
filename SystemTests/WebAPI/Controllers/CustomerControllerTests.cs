@@ -60,9 +60,9 @@ public class AdsControllerTest
     }
     private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare)
     {
-        var StatusCode = 0;
-        var prop = response.GetType().GetProperty(nameof(StatusCode));
-        StatusCode = (int)prop.GetValue(response);
+        var StatusCode = ((StatusCodeResult)response).StatusCode;
+        //var prop = response.GetType().GetProperty(nameof(StatusCode));
+        //StatusCode = (int)prop!.GetValue(response)!;
         return returnCodeCompare.Equals(StatusCode);
     }
     private bool APITestResponseCode<ReturnType>(Func<ReturnType> ActAction, Func<ReturnType, bool> AssertAction) =>
