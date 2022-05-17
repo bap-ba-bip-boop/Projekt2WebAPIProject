@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using SystemTests.Services;
 using WebAPI.Controllers;
-using WebAPI.DTO.Customer;
 using WebAPI.DTO.Project;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Model;
