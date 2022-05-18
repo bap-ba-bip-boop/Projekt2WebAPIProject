@@ -53,6 +53,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//==================================================================
+//Taget från Stack overflow, bör säkras kanske?
+app.UseCors( config =>
+    config
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .SetIsOriginAllowed(origin => true) // allow any origin
+        .AllowCredentials() // allow credentials
+);
+//==================================================================
+
 app.UseAuthorization();
 
 app.MapControllers();
