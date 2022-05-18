@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedResources.Services;
 using WebAPI.DTO.Project;
 using WebAPI.Model;
@@ -28,17 +29,18 @@ public class ProjectController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProjects() =>
         Ok(
-            _context.Projects!.Select( project => 
-                _mapper.Map<ProjectGetAllDTO>(project)
+            _context.Projects!.Include(project => project.Customer).Select(project =>
+               _mapper.Map<ProjectGetAllDTO>(project)
             )
         );
     [HttpGet]
     [Route("{Id}")]
     public IActionResult GetProjectById(int Id)
     {
-        var (status, project) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!);
-        return (status == ItemExistStatus.ItemDoesNotExist) ? 
-            NotFound() : 
+        var (status, project) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!.Include(project => project.Customer).ToList());
+
+        return (status == ItemExistStatus.ItemDoesNotExist) ?
+            NotFound() :
             Ok(
                 _mapper.Map<ProjectGetOneDTO>(project)
             );
@@ -61,7 +63,7 @@ public class ProjectController : ControllerBase
     [Route("{Id}")]
     public IActionResult ReplaceProjectByID(int Id, ProjectPutDTO cpd)
     {
-        var (status, projectToEdit) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!);
+        var (status, projectToEdit) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!.ToList());
         return (status == ItemExistStatus.ItemDoesNotExist) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
@@ -72,8 +74,8 @@ public class ProjectController : ControllerBase
     [Route("{Id}")]
     public IActionResult DeleteProjectByID(int Id)
     {
-        var (status, projectToRemove) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!);
-        return (status.Equals(ItemExistStatus.ItemDoesNotExist) ) ?
+        var (status, projectToRemove) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!.ToList());
+        return (status.Equals(ItemExistStatus.ItemDoesNotExist)) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
                 () => _context.Projects!.Remove(projectToRemove)
@@ -83,11 +85,11 @@ public class ProjectController : ControllerBase
     [Route("{Id}")]
     public IActionResult UpdateProjectPropertyByID(int Id, [FromBody] JsonPatchDocument<Project> projectEntity)
     {
-        var (status, projectToPatch) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!);
+        var (status, projectToPatch) = _lookup.VerifyItemID(Id, nameof(Project.ProjectId), _context.Projects!.ToList());
         return (status == ItemExistStatus.ItemDoesNotExist) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
-                ()=> projectEntity.ApplyTo(projectToPatch)
+                () => projectEntity.ApplyTo(projectToPatch)
             );
     }
 }

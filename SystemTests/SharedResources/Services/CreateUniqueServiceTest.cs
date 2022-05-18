@@ -20,7 +20,7 @@ public class CreateUniqueServiceTest
         _context = TestDatabaseService.CreateTestContext(nameof(CreateUniqueServiceTest));
         _sut = new CreateUniqeService();
 
-        TestName= Guid.NewGuid().ToString();
+        TestName = Guid.NewGuid().ToString();
 
         _ = addCustomer(TestName);
 
@@ -30,7 +30,8 @@ public class CreateUniqueServiceTest
             _context,
             _context.Customers!,
             item => item.Name!.Equals(name),
-            new Customer{
+            new Customer
+            {
                 Name = name,
             }
         );

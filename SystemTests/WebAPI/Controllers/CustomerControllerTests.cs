@@ -11,7 +11,6 @@ using WebAPI.DTO.Customer;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Model;
 using WebAPI.Services;
-using static SharedResources.Services.ICreateUniqeService;
 
 namespace SystemTests.WebAPI.Controllers;
 
@@ -33,20 +32,10 @@ public class CustomerControllerTest
 
         TestName = Guid.NewGuid().ToString();
 
-        addCustomer(TestName);
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
 
         _sut = createAPI();
     }
-    private CreateUniqueStatus addCustomer(string name) =>
-        _creator.CreateIfNotExists(
-            _context,
-            _context.Customers!,
-            item => item.Name!.Equals(name),
-            new Customer
-            {
-                Name = name
-            }
-        );
     private CusotmerController createAPI()
     {
         var conf = new MapperConfiguration(cfg =>
@@ -54,7 +43,7 @@ public class CustomerControllerTest
             cfg.AddProfile<CustomerProfile>();
         }
         );
-        var app = new CusotmerController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
+        var app = new CusotmerController(new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
         return app;
     }
     //HTTP GET
@@ -116,6 +105,23 @@ public class CustomerControllerTest
             )
         );
     }
+    [TestMethod]
+    public void When_Correct_Values_Are_Posted_Should_Succeed()
+    {
+        string NameToAdd = Guid.NewGuid().ToString();
+
+        _sut.AddNewCustomer(
+            new CustomerPostDTO
+            {
+                Name = NameToAdd
+            }
+        );
+
+        var AddedItem = _context.Customers!.First(customer => customer.Name == NameToAdd);
+
+        Assert.IsNotNull(AddedItem);
+        Assert.AreEqual(NameToAdd, AddedItem.Name);
+    }
     //HTTP PUT
     [TestMethod]
     public void When_Call_Put_With_Invalid_Id()
@@ -150,6 +156,25 @@ public class CustomerControllerTest
             )
         );
     }
+    [TestMethod]
+    public void When_Correct_Values_Are_Put_Should_Succeed()
+    {
+        string NameToEdit = Guid.NewGuid().ToString();
+        var CustomerIDToReplace = _context.Customers!.First().CustomerId;
+
+        _sut.ReplaceCustomerByID(
+            CustomerIDToReplace,
+            new CustomerPutDTO
+            {
+                Name = NameToEdit
+            }
+        );
+
+        var EditedCustomer = _context.Customers!.First(customer => customer.CustomerId == CustomerIDToReplace);
+
+        Assert.IsNotNull(EditedCustomer);
+        Assert.AreEqual(NameToEdit, EditedCustomer.Name);
+    }
     //HTTP DELETE
     [TestMethod]
     public void When_Call_Delete_With_Invalalid_Id()
@@ -181,13 +206,26 @@ public class CustomerControllerTest
             ), true
         );
     }
+    [TestMethod]
+    public void When_Correct_ID_Is_Given_Should_Not_Exist()
+    {
+        var CustomerIDToRemove = _context.Customers!.First().CustomerId;
+
+        _sut.DeleteCustomerByID(
+            CustomerIDToRemove
+        );
+
+        var RemovecItem = _context.Customers!.FirstOrDefault(customer => customer.CustomerId == CustomerIDToRemove);
+
+        Assert.AreEqual(default(Customer), RemovecItem);
+    }
     //HTTP PATCH
     [TestMethod]
     public void When_Call_Patch_With_Invalalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status404NotFound;
         var nonExistingId = -1;
-    
+
         Assert.IsTrue(
             _tester.APITestResponseCode(
                 () => _sut.UpdateCustomerPropertyByID(
@@ -203,10 +241,10 @@ public class CustomerControllerTest
     {
         var returnCodeCompare = StatusCodes.Status204NoContent;
         var existingID = _context.Customers!.First().CustomerId;
-    
+
         var body = new JsonPatchDocument<Customer>();
         body.Replace(customer => customer.Name, "This is the new Value");
-    
+
         Assert.IsTrue(
             _tester.APITestResponseCode(
                 () => _sut.UpdateCustomerPropertyByID(

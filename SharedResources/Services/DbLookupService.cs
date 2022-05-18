@@ -5,7 +5,7 @@ namespace SharedResources.Services;
 
 public class DbLookupService : IDbLookupService
 {
-    public (ItemExistStatus, DataType) VerifyItemID<DataType>(int Id, string IdProperty, DbSet<DataType> list) where DataType : class
+    public (ItemExistStatus, DataType) VerifyItemID<DataType>(int Id, string IdProperty, List<DataType> list) where DataType : class
     {
         var itemType = typeof(DataType).GetProperty(IdProperty);
         var item = list.ToList().FirstOrDefault(item =>
