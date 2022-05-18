@@ -34,7 +34,8 @@ _services
 
 _services
     .AddAutoMapper(typeof(CustomerProfile))
-    .AddAutoMapper(typeof(ProjectProfile));
+    .AddAutoMapper(typeof(ProjectProfile))
+    .AddAutoMapper(typeof(TidsRegistreringProfile));
 
 var app = builder.Build();
 

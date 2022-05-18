@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Services;
 using WebAPI.Model;
@@ -32,6 +33,25 @@ class TestDatabaseService
             {
                 ProjectName = name,
                 CustomerId = customerId
+            }
+        );
+    public static CreateUniqueStatus AddTidsRegistrering(
+        string Beskrivning,
+        int AntalMinuter,
+        int ProjectId,
+        DateTime dt,
+        CreateUniqeService _creator,
+        APIDbContext _context) =>
+        _creator.CreateIfNotExists(
+            _context,
+            _context.TidsRegistrerings!,
+            item => false,
+            new TidsRegistrering
+            {
+                Datum = dt,
+                Beskrivning = Beskrivning,
+                AntalMinuter = AntalMinuter,
+                ProjectId = ProjectId
             }
         );
 }
