@@ -18,12 +18,12 @@ public class APIMethodWrapperServiceTests
         _sut = new(_context!);
     }
     private bool DefaultAPIResponseCodeCheck(IActionResult response, int returnCodeCompare) =>
-        returnCodeCompare.Equals( ((StatusCodeResult)response).StatusCode );
+        returnCodeCompare.Equals(((StatusCodeResult)response).StatusCode);
     [TestMethod]
     public void Should_Return_204NoContent()
     {
         var responseCode = StatusCodes.Status204NoContent;
 
-        Assert.IsTrue( DefaultAPIResponseCodeCheck(_sut.NonSafeHTTPMEthodWrapper( () => {}), responseCode ) );
+        Assert.IsTrue(DefaultAPIResponseCodeCheck(_sut.NonSafeHTTPMEthodWrapper(() => { }), responseCode));
     }
 }

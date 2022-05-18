@@ -9,5 +9,5 @@ public interface IDbLookupService
         ItemExists,
         ItemDoesNotExist
     }
-    public (ItemExistStatus, DataType) VerifyItemID<DataType>(int Id, string IdProperty, DbSet<DataType> list) where DataType : class;
+    public (ItemExistStatus, DataType) VerifyItemID<DataType>(int Id, string IdProperty, List<DataType> list) where DataType : class;
 }

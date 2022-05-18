@@ -28,17 +28,17 @@ public class CusotmerController : ControllerBase
     [HttpGet]
     public IActionResult GetAllCustomers() =>
         Ok(
-            _context.Customers!.Select( customer => 
-                _mapper.Map<CustomerGetAllDTO>(customer)
+            _context.Customers!.Select(customer =>
+               _mapper.Map<CustomerGetAllDTO>(customer)
             )
         );
     [HttpGet]
     [Route("{Id}")]
     public IActionResult GetCustomerById(int Id)
     {
-        var (status, customer) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!);
-        return (status == ItemExistStatus.ItemDoesNotExist) ? 
-            NotFound() : 
+        var (status, customer) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!.ToList());
+        return (status == ItemExistStatus.ItemDoesNotExist) ?
+            NotFound() :
             Ok(
                 _mapper.Map<CustomerGetOneDTO>(customer)
             );
@@ -61,7 +61,7 @@ public class CusotmerController : ControllerBase
     [Route("{Id}")]
     public IActionResult ReplaceCustomerByID(int Id, CustomerPutDTO cpd)
     {
-        var (status, customerToEdit) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!);
+        var (status, customerToEdit) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!.ToList());
         return (status == ItemExistStatus.ItemDoesNotExist) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
@@ -72,8 +72,8 @@ public class CusotmerController : ControllerBase
     [Route("{Id}")]
     public IActionResult DeleteCustomerByID(int Id)
     {
-        var (status, customerToRemove) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!);
-        return (status.Equals(ItemExistStatus.ItemDoesNotExist) ) ?
+        var (status, customerToRemove) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!.ToList());
+        return (status.Equals(ItemExistStatus.ItemDoesNotExist)) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
                 () => _context.Customers!.Remove(customerToRemove)
@@ -83,11 +83,11 @@ public class CusotmerController : ControllerBase
     [Route("{Id}")]
     public IActionResult UpdateCustomerPropertyByID(int Id, [FromBody] JsonPatchDocument<Customer> customerEntity)
     {
-        var (status, customerToPatch) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!);
+        var (status, customerToPatch) = _lookup.VerifyItemID(Id, nameof(Customer.CustomerId), _context.Customers!.ToList());
         return (status == ItemExistStatus.ItemDoesNotExist) ?
             NotFound() :
             _methodWrapepr.NonSafeHTTPMEthodWrapper(
-                ()=> customerEntity.ApplyTo(customerToPatch)
+                () => customerEntity.ApplyTo(customerToPatch)
             );
     }
 }

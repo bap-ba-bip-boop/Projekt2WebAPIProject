@@ -11,7 +11,6 @@ using WebAPI.DTO.Project;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Model;
 using WebAPI.Services;
-using static SharedResources.Services.ICreateUniqeService;
 
 namespace SystemTests.WebAPI.Controllers;
 
@@ -23,7 +22,8 @@ public class ProjectControllerTest
     private readonly ProjectController _sut;
     private readonly ITestAPIService _tester;
 
-    public string TestName { get; set; }
+    public string TestCustomerName { get; set; }
+    public string TestProjectName { get; set; }
 
     public ProjectControllerTest()
     {
@@ -31,23 +31,14 @@ public class ProjectControllerTest
         _context = TestDatabaseService.CreateTestContext(nameof(ProjectControllerTest));
         _creator = new CreateUniqeService();
 
-        TestName = Guid.NewGuid().ToString();
+        TestCustomerName = Guid.NewGuid().ToString();
+        TestProjectName = Guid.NewGuid().ToString();
 
-        addProject(TestName, 1);// change change change
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        TestDatabaseService.AddProject(TestProjectName, _context.Customers!.Last().CustomerId, _creator, _context);
 
         _sut = createAPI();
     }
-    private CreateUniqueStatus addProject(string name, int customerId) =>
-        _creator.CreateIfNotExists(
-            _context,
-            _context.Projects!,
-            item => item.ProjectName!.Equals(name),
-            new Project
-            {
-                ProjectName = name,
-                CustomerId = customerId
-            }
-        );
     private ProjectController createAPI()
     {
         var conf = new MapperConfiguration(cfg =>
@@ -55,7 +46,7 @@ public class ProjectControllerTest
             cfg.AddProfile<ProjectProfile>();
         }
         );
-        var app = new ProjectController( new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
+        var app = new ProjectController(new Mapper(conf), _context, new DbLookupService(), new APIMethodWrapperService(_context));
         return app;
     }
     //HTTP GET
@@ -89,7 +80,7 @@ public class ProjectControllerTest
     public void When_Call_Get_Single_Method_With_Invalid_Id()
     {
         var returnCodeCompare = StatusCodes.Status404NotFound;
-        var nonExistingID = -1;// change change change
+        var nonExistingID = -1;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -104,7 +95,7 @@ public class ProjectControllerTest
     {
         var returnCodeCompare = StatusCodes.Status201Created;
         var name = Guid.NewGuid().ToString();
-        var customerId = 1;// change change change
+        var customerId = _context.Customers!.Last().CustomerId;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -191,7 +182,7 @@ public class ProjectControllerTest
     {
         var returnCodeCompare = StatusCodes.Status404NotFound;
         var nonExistingId = -1;
-    
+
         Assert.IsTrue(
             _tester.APITestResponseCode(
                 () => _sut.UpdateProjectPropertyByID(
@@ -207,10 +198,10 @@ public class ProjectControllerTest
     {
         var returnCodeCompare = StatusCodes.Status204NoContent;
         var existingID = _context.Projects!.First().ProjectId;
-    
+
         var body = new JsonPatchDocument<Project>();
         body.Replace(project => project.ProjectName, "This is the new Value");
-    
+
         Assert.IsTrue(
             _tester.APITestResponseCode(
                 () => _sut.UpdateProjectPropertyByID(

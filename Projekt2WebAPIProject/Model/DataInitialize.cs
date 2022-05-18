@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SharedResources.Services;
 using WebAPI.Settings;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Model;
 
@@ -26,13 +26,26 @@ public class DataInitialize
             _creator.CreateIfNotExists(
                 _context,
                 _context.Customers!,
-                cust => cust.Name!.Equals(customer.Name),
+                cust => cust.Name!.Equals(customer.CustomerName),
                 new Customer
                 {
-                    Name = customer.Name
+                    Name = customer.CustomerName
                 }
             )
         );
 
+        _settings.Value.ProjectsToAdd!.ForEach(project =>
+            _creator.CreateIfNotExists(
+                _context,
+                _context.Projects!,
+                proj => proj.ProjectName!.Equals(project.ProjectName),
+                new Project
+                {
+                    ProjectName = project.ProjectName,
+                    CustomerId = _context.Customers!.ToList().ElementAt(project.CustomerId - 1).CustomerId,
+                    Customer = _context.Customers!.ToList().ElementAt(project.CustomerId - 1)
+                }
+            )
+        );
     }
 }

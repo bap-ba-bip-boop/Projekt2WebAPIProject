@@ -1,10 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedResources.Services;
-using WebAPI.Model;
 using System;
 using System.Linq;
-using static SharedResources.Services.IDbLookupService;
 using SystemTests.Services;
+using WebAPI.Model;
+using static SharedResources.Services.IDbLookupService;
 
 namespace SystemTests.Inlämning_API.Services;
 
@@ -29,8 +29,9 @@ public class DbLookupServiceTest
             _context,
             _context.Customers!,
             item => item.Name!.Equals(name),
-            new Customer{
-                Name=name
+            new Customer
+            {
+                Name = name
             }
         );
 
@@ -39,7 +40,7 @@ public class DbLookupServiceTest
     {
         var existingItem = _context.Customers!.First();
 
-        var (returnStatus, returnCustomer) = _sut.VerifyItemID(existingItem.CustomerId,nameof(existingItem.CustomerId), _context.Customers!);
+        var (returnStatus, returnCustomer) = _sut.VerifyItemID(existingItem.CustomerId, nameof(existingItem.CustomerId), _context.Customers!.ToList());
 
         Assert.IsTrue(returnStatus == ItemExistStatus.ItemExists);
         Assert.IsFalse(returnCustomer == null);
@@ -47,12 +48,13 @@ public class DbLookupServiceTest
     [TestMethod]
     public void When_Account_Dont_Exist_Should_Return_AdDoesNotExist()
     {
-        var nonExistingAccount = new Customer{
+        var nonExistingAccount = new Customer
+        {
             CustomerId = -1,
-            Name="name"
+            Name = "name"
         };
 
-        var (returnStatus, returnAd) = _sut.VerifyItemID(nonExistingAccount.CustomerId, nameof(nonExistingAccount.CustomerId), _context.Customers!);
+        var (returnStatus, returnAd) = _sut.VerifyItemID(nonExistingAccount.CustomerId, nameof(nonExistingAccount.CustomerId), _context.Customers!.ToList());
 
         Assert.IsTrue(returnStatus == ItemExistStatus.ItemDoesNotExist);
     }
