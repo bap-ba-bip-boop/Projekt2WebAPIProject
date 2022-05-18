@@ -108,7 +108,7 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Correct_Values_Are_Posted_Should_Succeed()
     {
-        string NameToAdd = Guid.NewGuid().ToString();
+        var NameToAdd = Guid.NewGuid().ToString();
 
         _sut.AddNewCustomer(
             new CustomerPostDTO
@@ -215,9 +215,9 @@ public class CustomerControllerTest
             CustomerIDToRemove
         );
 
-        var RemovecItem = _context.Customers!.FirstOrDefault(customer => customer.CustomerId == CustomerIDToRemove);
+        var RemovedItem = _context.Customers!.FirstOrDefault(customer => customer.CustomerId == CustomerIDToRemove);
 
-        Assert.AreEqual(default(Customer), RemovecItem);
+        Assert.AreEqual(default(Customer), RemovedItem);
     }
     //HTTP PATCH
     [TestMethod]

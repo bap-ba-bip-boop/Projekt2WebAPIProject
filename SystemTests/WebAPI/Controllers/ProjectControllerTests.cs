@@ -110,6 +110,26 @@ public class ProjectControllerTest
             )
         );
     }
+    [TestMethod]
+    public void When_Correct_Values_Are_Posted_Should_Succeed()
+    {
+        var NameToAdd = Guid.NewGuid().ToString();
+        var projOwnerId = _context.Customers!.First().CustomerId;
+
+        _sut.AddNewProject(
+            new ProjectPostDTO
+            {
+                ProjectName = NameToAdd,
+                CustomerId = projOwnerId
+            }
+        );
+
+        var AddedItem = _context.Projects!.First(project => project.ProjectName == NameToAdd);
+
+        Assert.IsNotNull(AddedItem);
+        Assert.AreEqual(NameToAdd, AddedItem.ProjectName);
+        Assert.AreEqual(projOwnerId, AddedItem.CustomerId);
+    }
     //HTTP PUT
     [TestMethod]
     public void When_Call_Put_With_Invalid_Id()
@@ -145,6 +165,29 @@ public class ProjectControllerTest
             )
         );
     }
+    [TestMethod]
+    public void When_Correct_Values_Are_Put_Should_Succeed()
+    {
+        string NameToEdit = Guid.NewGuid().ToString();
+        var projOwnerId = _context.Customers!.Last().CustomerId;
+
+        var ProjectIdToReplace = _context.Projects!.First().ProjectId;
+
+        _sut.ReplaceProjectByID(
+            ProjectIdToReplace,
+            new ProjectPutDTO
+            {
+                ProjectName = NameToEdit,
+                CustomerId = projOwnerId
+            }
+        );
+
+        var EditedProject = _context.Projects!.First(project => project.ProjectId == ProjectIdToReplace);
+
+        Assert.IsNotNull(EditedProject);
+        Assert.AreEqual(NameToEdit, EditedProject.ProjectName);
+        Assert.AreEqual(projOwnerId, EditedProject.CustomerId);
+    }
     //HTTP DELETE
     [TestMethod]
     public void When_Call_Delete_With_Invalalid_Id()
@@ -175,6 +218,19 @@ public class ProjectControllerTest
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             ), true
         );
+    }
+    [TestMethod]
+    public void When_Correct_ID_Is_Given_Should_Not_Exist()
+    {
+        var ProjectIDToRemove = _context.Projects!.First().ProjectId;
+
+        _sut.DeleteProjectByID(
+            ProjectIDToRemove
+        );
+
+        var RemovecItem = _context.Projects!.FirstOrDefault(customer => customer.ProjectId == ProjectIDToRemove);
+
+        Assert.AreEqual(default(Project), RemovecItem);
     }
     //HTTP PATCH
     [TestMethod]
