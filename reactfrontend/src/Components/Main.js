@@ -8,7 +8,7 @@ export const Main = props => {
     return (
       <main className='siteMain'>
           {props.activePage === 'Start' && <RegList/>}
-          {props.activePage === 'newReg' && <TimeRegistrationForm/>}
+          {props.activePage === 'newReg' && <TimeRegistrationForm changeActivePage={props.changeActivePage}/>}
       </main>
     )
 }

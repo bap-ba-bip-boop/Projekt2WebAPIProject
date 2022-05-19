@@ -103,3 +103,42 @@
     transition: 0.2s;
     filter: brightness(0.8);
 }
+
+/*Form section*/
+.formGroup
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.formInput
+{
+    color: orangered;
+    font-size: 2em;
+
+}
+
+.formLabel
+{
+    font-size: 1.5em;
+}
+
+.formTextArea
+{
+    color: orangered;
+    font-size: 2em;
+    resize: none;
+}
+
+.formSubmit
+{
+    background-color: orangered;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    display: inline;
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 1vh 0vw;
+    padding: 1vh 2vw;
+}

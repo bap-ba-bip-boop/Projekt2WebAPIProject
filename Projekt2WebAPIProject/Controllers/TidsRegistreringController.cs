@@ -34,7 +34,8 @@ public class TidsRegistreringController : ControllerBase
                 .Include(reg => reg.Project)
                 .Select(reg =>
                _mapper.Map<TidsRegistreringGetAllDTO>(reg)
-            )
+            ).ToList()
+            .OrderByDescending(reg => reg.Datum)
         );
     [HttpGet]
     [Route("{Id}")]
