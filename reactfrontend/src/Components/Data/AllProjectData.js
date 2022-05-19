@@ -1,6 +1,6 @@
 const url = 'https://localhost:7045/project';
 
-export const fetchProjects = async () => {
+export const fetchAllProjects = async () => {
   const response = await fetch(url)
   const json = await response.json()
 

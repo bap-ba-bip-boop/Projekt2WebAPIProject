@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
-import {fetchProjects} from './Data/ProjectData';
+import {fetchAllProjects} from './Data/AllProjectData';
 /*
 public string? Beskrivning { get; set; }
     public DateTime Datum { get; set; }
     public int AntalMinuter { get; set; }
     public int ProjectId { get; set; }
 */
-export const TimeRegistrationForm = props => {
+export const TimeRegistrationNew = props => {
   const url = 'https://localhost:7045/tidsregistrering';
 
   const [projects, setProjects] = useState([]);
@@ -18,7 +18,7 @@ export const TimeRegistrationForm = props => {
   const [Beskrivning, setBeskrivning] = useState(0);
 
   useEffect(()=>{
-    fetchProjects().then( result => {
+    fetchAllProjects().then( result => {
       setProjects(result)
      }
     )
@@ -33,7 +33,6 @@ export const TimeRegistrationForm = props => {
       "AntalMinuter": AntalMinuter,
       "ProjectId": SelectedProject
     }
-    console.log(result);
     fetch(
       url,
       {
@@ -49,8 +48,8 @@ export const TimeRegistrationForm = props => {
           console.log(result);
         }
       )
-      props.changeActivePage('Start')
-      window.location.reload(false);
+      props.changeActivePage(props.startPage)
+      //window.location.reload(false);//hitta ett bättre sätt att ladda om listan?
   }
 
   return (
