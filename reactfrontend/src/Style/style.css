@@ -91,9 +91,10 @@
 }
 .redirectButton
 {
-    background-color: orangered;
+    background-color: orange;
     border-radius: 15px;
     color: white;
+    font-weight: bold;
     margin: 0vh 0.5vw;
     padding: 1vh 2vw;
     text-align: right;
@@ -138,12 +139,13 @@
 
 .formSubmit
 {
-    background-color: orangered;
+    background-color: orange;
     border-radius: 15px;
     border: none;
     color: white;
     display: inline;
     font-size: 1em;
+    font-weight: bold;
     line-height: 1.6;
     margin: 1vh 0vw;
     padding: 1vh 2vw;

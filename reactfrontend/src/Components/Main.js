@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {TimeRegistrationIndex} from './TimeRegistrationIndex';
-import {TimeRegistrationEdit} from './TimeRegistrationEdit';
-import {TimeRegistrationNew} from './TimeRegistrationNew';
-import {TimeRegistrationPage} from './TimeRegistrationPage';
+import {TimeRegistrationIndex} from './TimeRegistration/TimeRegistrationIndex';
+import {TimeRegistrationEdit} from './TimeRegistration/TimeRegistrationEdit';
+import {TimeRegistrationNew} from './TimeRegistration/TimeRegistrationNew';
+import {TimeRegistrationPage} from './TimeRegistration/TimeRegistrationPage';
 
 export const Main = props => {
 

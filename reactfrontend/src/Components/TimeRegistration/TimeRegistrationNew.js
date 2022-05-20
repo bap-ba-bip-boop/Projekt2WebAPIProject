@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import {fetchAllProjects} from './Data/AllProjectData';
-/*
-public string? Beskrivning { get; set; }
-    public DateTime Datum { get; set; }
-    public int AntalMinuter { get; set; }
-    public int ProjectId { get; set; }
-*/
+import {fetchAllProjects} from '../Data/AllProjectData';
+
 export const TimeRegistrationNew = props => {
-  const url = 'https://localhost:7045/tidsregistrering';
+  const appSettings = require('../../Settings/Components/TimeRegistration/TimeRegistrationNew.json');
 
   const [projects, setProjects] = useState([]);
 
@@ -27,30 +22,25 @@ export const TimeRegistrationNew = props => {
   );
 
   const onRegister = ()=>{
-    var result = {//magic strings
-      "Beskrivning": Beskrivning,
-      "Datum": Date,
-      "AntalMinuter": AntalMinuter,
-      "ProjectId": SelectedProject
-    }
+    appSettings.PostDTO.Beskrivning = Beskrivning;
+    appSettings.PostDTO.Datum = Date;
+    appSettings.PostDTO.AntalMinuter = AntalMinuter;
+    appSettings.PostDTO.ProjectId = SelectedProject;
     fetch(
-      url,
+      appSettings.apiUrl,
       {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(result)
+        method: appSettings.fetchMethod,
+        headers: appSettings.fetchHeaders,
+        body: JSON.stringify(appSettings.PostDTO)
       }
       ).then(
         result =>
         {
           console.log(result);
+          props.changeActivePage(props.startPage)
         }
       )
-      props.changeActivePage(props.startPage)
-      //window.location.reload(false);//hitta ett bättre sätt att ladda om listan?
-  }
+    }
 
   return (
     <section>
@@ -68,7 +58,7 @@ export const TimeRegistrationNew = props => {
         <div className='formGroup'>
           <label className='formLabel'>Project</label>
           <select className='formInput' onChange={e=>setProjectId(e.target.value)}>
-            <option disabled={true} selected={true}>Välj ett Projekt</option>
+            <option disabled={true} selected={true} value={0}>Välj ett Projekt</option>
             {projects.map( proj=>
               <option key={proj.projectId} value={proj.projectId}>{proj.projectName}</option>
             )}

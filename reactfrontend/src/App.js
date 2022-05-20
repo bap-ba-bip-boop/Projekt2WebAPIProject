@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 import {Header} from './Components/Header'
 import {Main} from './Components/Main'
 import {Footer} from './Components/Footer'
-import { ButtonBar } from './Components/ButtonBar';
-import './Style/style.css'
+import {ButtonBar} from './Components/ButtonBar';
+import'./Style/style.css';
+
 
 const App = () => {
+  const appSettings = require('./Settings/App.json');
 
-  const startPage = 'Start';
-  const newPage = 'newReg';
-  const regPage = 'regPage';
-  const editPage = 'editPage';
+  const startPage = appSettings.startPage;
+  const newPage = appSettings.newPage;
+  const regPage = appSettings.regPage;
+  const editPage = appSettings.editPage;
 
   const [activePage, setActivePage] = useState(startPage);
   const [currentRegId, setRegId] = useState(0);
@@ -25,16 +27,14 @@ const App = () => {
     setActivePage(regPage);
   }
 
-  const url = `https://localhost:7045/tidsregistrering/${currentRegId}`;
+  const url = appSettings.apiUrl + `/${currentRegId}`;
 
   const deleteSelectedReg = (garbage) => {
     fetch(
       url,
       {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        method: appSettings.fetchMethod,
+        headers: appSettings.fetchHeaders
       }
       ).then(
         result =>

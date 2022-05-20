@@ -1,0 +1,12 @@
+{
+    "apiUrl": "https://localhost:7045/tidsregistrering",
+    "PutDTO":{
+        "Beskrivning": "",
+        "Datum": "",
+        "AntalMinuter": ""
+      },
+    "fetchMethod": "PUT",
+    "fetchHeaders": {
+        "Content-Type": "application/json"
+      }
+}

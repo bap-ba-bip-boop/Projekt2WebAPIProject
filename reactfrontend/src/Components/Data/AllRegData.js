@@ -1,7 +1,7 @@
-const url = 'https://localhost:7045/tidsregistrering';
+const appSettings = require('../../Settings/Components/Data/AllRegData.json')
 
 export const fetchAllRegs = async () => {
-  const response = await fetch(url)
+  const response = await fetch(appSettings.apiUrl)
   const json = await response.json()
 
   return  json

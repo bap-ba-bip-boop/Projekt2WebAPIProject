@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {fetchAllRegs} from './Data/AllRegData';
+import {fetchAllRegs} from '../Data/AllRegData';
 
 import {TimeRegistrationViewModel } from './TimeRegistrationViewModel';
 

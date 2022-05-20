@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { fetchOneReg } from './Data/OneRegData';
+import { fetchOneReg } from '../Data/OneRegData';
 
 
 export const TimeRegistrationPage = props => {
-    const url = `https://localhost:7045/tidsregistrering/${props.currentRegId}`;
+    const appSettings = require('../../Settings/Components/TimeRegistration/TimeRegistrationPage.json');
+  
+    const url = appSettings.apiUrl + `/${props.currentRegId}`;
 
     const [currentReg, setCurrentReg] = useState( null );
 

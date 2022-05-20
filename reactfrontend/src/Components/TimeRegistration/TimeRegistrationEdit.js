@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { fetchOneReg } from './Data/OneRegData';
+import { fetchOneReg } from '../Data/OneRegData';
 
 export const TimeRegistrationEdit = props => {
-  const url = `https://localhost:7045/tidsregistrering/${props.currentRegId}`;
+  const appSettings = require('../../Settings/Components/TimeRegistration/TimeRegistrationEdit.json');
+  
+  const url = appSettings.apiUrl +`/${props.currentRegId}`;
 
   const [timeReg, setTimeReg] = useState([]);
 
@@ -25,19 +27,15 @@ export const TimeRegistrationEdit = props => {
   const [Beskrivning, SetBeskrivning] = useState(timeReg.beskrivning);
 
   const onRegister = ()=>{
-    var result = {//magic strings
-      "Beskrivning": Beskrivning,
-      "Datum": Datum,
-      "AntalMinuter": AntalMinuter
-    }
+    appSettings.PutDTO.Beskrivning = Beskrivning;
+    appSettings.PutDTO.Datum = Datum;
+    appSettings.PutDTO.AntalMinuter = AntalMinuter;
     fetch(
       url,
       {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(result)
+        method: appSettings.fetchMethod,
+        headers: appSettings.fetchHeaders,
+        body: JSON.stringify(appSettings.PutDTO)
       }
       ).then(
         result =>
