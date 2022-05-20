@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SharedResources.Data;
 using WebAPI.Model;
 
 namespace WebAPI.Services;
 
 public class APIMethodWrapperService : IAPIMethodWrapperService
 {
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public APIMethodWrapperService(APIDbContext context)
+    public APIMethodWrapperService(ApplicationDbContext context)
     {
         _context = context;
     }

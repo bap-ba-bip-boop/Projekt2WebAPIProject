@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedResources.Data;
 using SharedResources.Services;
 using System;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace SystemTests.Inlämning_API.Services;
 public class DbLookupServiceTest
 {
 
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly DbLookupService _sut;
     private readonly ICreateUniqeService _creator;
     public DbLookupServiceTest()

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SharedResources.Data;
 using WebAPI.DTO.Customer;
 using WebAPI.Model;
 

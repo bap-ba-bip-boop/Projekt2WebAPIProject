@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedResources.Data;
 using SharedResources.Services;
 using System;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace SystemTests.WebAPI.Controllers;
 [TestClass]
 public class ProjectControllerTest
 {
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly CreateUniqeService _creator;
     private readonly ProjectController _sut;
     private readonly ITestAPIService _tester;

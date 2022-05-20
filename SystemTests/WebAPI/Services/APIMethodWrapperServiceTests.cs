@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedResources.Data;
 using SystemTests.Services;
 using WebAPI.Model;
 using WebAPI.Services;
@@ -11,7 +12,7 @@ namespace SystemTests.WebAPI.Services;
 public class APIMethodWrapperServiceTests
 {
     private readonly APIMethodWrapperService _sut;
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     public APIMethodWrapperServiceTests()
     {
         _context = TestDatabaseService.CreateTestContext(nameof(APIMethodWrapperServiceTests));

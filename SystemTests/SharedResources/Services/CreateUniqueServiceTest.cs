@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedResources.Data;
 using SharedResources.Services;
 using System;
 using SystemTests.Services;
@@ -12,7 +13,7 @@ public class CreateUniqueServiceTest
 {
     public string TestName { get; set; }
 
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
 
     private readonly ICreateUniqeService _sut;
     public CreateUniqueServiceTest()

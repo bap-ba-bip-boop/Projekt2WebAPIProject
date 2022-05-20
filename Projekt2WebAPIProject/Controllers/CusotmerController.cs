@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.DTO.Customer;
 using WebAPI.Model;
@@ -14,11 +15,11 @@ namespace WebAPI.Controllers;
 public class CusotmerController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly IDbLookupService _lookup;
     private readonly IAPIMethodWrapperService _methodWrapepr;
 
-    public CusotmerController(IMapper mapper, APIDbContext context, IDbLookupService lookup, IAPIMethodWrapperService amws)
+    public CusotmerController(IMapper mapper, ApplicationDbContext context, IDbLookupService lookup, IAPIMethodWrapperService amws)
     {
         _mapper = mapper;
         _context = context;

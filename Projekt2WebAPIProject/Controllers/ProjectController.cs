@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.DTO.Project;
 using WebAPI.Model;
@@ -15,11 +16,11 @@ namespace WebAPI.Controllers;
 public class ProjectController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly IDbLookupService _lookup;
     private readonly IAPIMethodWrapperService _methodWrapepr;
 
-    public ProjectController(IMapper mapper, APIDbContext context, IDbLookupService lookup, IAPIMethodWrapperService amws)
+    public ProjectController(IMapper mapper, ApplicationDbContext context, IDbLookupService lookup, IAPIMethodWrapperService amws)
     {
         _mapper = mapper;
         _context = context;

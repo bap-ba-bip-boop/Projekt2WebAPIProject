@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.Model;
 using static SharedResources.Services.ICreateUniqeService;
@@ -8,13 +9,13 @@ namespace SystemTests.Services;
 
 class TestDatabaseService
 {
-    public static APIDbContext CreateTestContext(string dbName) =>
-        new APIDbContext(
-            new DbContextOptionsBuilder<APIDbContext>()
+    public static ApplicationDbContext CreateTestContext(string dbName) =>
+        new ApplicationDbContext(
+            new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: dbName)
                 .Options
         );
-    public static CreateUniqueStatus AddCustomer(string name, CreateUniqeService _creator, APIDbContext _context) =>
+    public static CreateUniqueStatus AddCustomer(string name, CreateUniqeService _creator, ApplicationDbContext _context) =>
         _creator.CreateIfNotExists(
             _context,
             _context.Customers!,
@@ -24,7 +25,7 @@ class TestDatabaseService
                 Name = name
             }
         );
-    public static CreateUniqueStatus AddProject(string name, int customerId, CreateUniqeService _creator, APIDbContext _context) =>
+    public static CreateUniqueStatus AddProject(string name, int customerId, CreateUniqeService _creator, ApplicationDbContext _context) =>
         _creator.CreateIfNotExists(
             _context,
             _context.Projects!,
@@ -41,7 +42,7 @@ class TestDatabaseService
         int ProjectId,
         DateTime dt,
         CreateUniqeService _creator,
-        APIDbContext _context) =>
+        ApplicationDbContext _context) =>
         _creator.CreateIfNotExists(
             _context,
             _context.TidsRegistrerings!,

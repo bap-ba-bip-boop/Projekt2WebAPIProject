@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.Settings;
 
@@ -7,11 +8,11 @@ namespace WebAPI.Model;
 
 public class DataInitialize
 {
-    private readonly APIDbContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly IOptions<DataInitializeSettings> _settings;
     private readonly ICreateUniqeService _creator;
 
-    public DataInitialize(APIDbContext context, IOptions<DataInitializeSettings> settings, ICreateUniqeService creator)
+    public DataInitialize(ApplicationDbContext context, IOptions<DataInitializeSettings> settings, ICreateUniqeService creator)
     {
         _context = context;
         _settings = settings;

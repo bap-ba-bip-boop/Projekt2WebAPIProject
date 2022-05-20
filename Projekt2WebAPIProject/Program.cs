@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Model;
@@ -17,7 +18,7 @@ _services.AddControllers();
 _services.AddEndpointsApiExplorer();
 _services.AddSwaggerGen();
 
-_services.AddDbContext<APIDbContext>(options =>
+_services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
