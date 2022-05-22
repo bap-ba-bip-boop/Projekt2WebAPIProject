@@ -2,18 +2,10 @@ import React, { useState, useEffect } from 'react'
 
 import { ErrorMessage } from '../ErrorMessage';
 import {getData} from '../Data/JSONData';
+import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistrationNew.json';
+import { minuteValidation } from '../SharedMethods/FormValidation';
 
 export const TimeRegistrationNew = props => {
-  const [appSettings, setAppSettings] = useState([]);
-
-  useEffect(()=>{
-    getData(props.settingsAddress).then( result => {
-      setAppSettings(result);
-    }
-    )
-    },
-    []
-  );
 
   const [projects, setProjects] = useState([]);
 
@@ -40,25 +32,33 @@ export const TimeRegistrationNew = props => {
     let encoutneredErrors = false;
     event.preventDefault();
 
-    if(!AntalMinuter || AntalMinuter === 0)
+    //if(!AntalMinuter || AntalMinuter === 0)
+    //{
+    //  console.log(appSettings.errMissingMinutes)
+    //  setMinuteError(appSettings.errMissingMinutes);
+    //  encoutneredErrors = true;
+    //}
+    //else if(AntalMinuter < appSettings.minMinutes)
+    //{
+    //  setMinuteError(appSettings.errLessThanAllowedMin.format(appSettings.minMinutes));
+    //  encoutneredErrors = true;
+    //}
+    //else if(AntalMinuter > appSettings.maxMinutes)
+    //{
+    //  setMinuteError(appSettings.errMoreThanAllowedMax.format(appSettings.maxMinutes));
+    //  encoutneredErrors = true;
+    //}
+    //else
+    //{
+    //  setMinuteError("");
+    //}
+    let minuteVal = "";
+
+    minuteVal = minuteValidation(AntalMinuter);
+    if(minuteVal != "")
     {
-      console.log(appSettings.errMissingMinutes)
-      setMinuteError(appSettings.errMissingMinutes);
+      setMinuteError(minuteVal);
       encoutneredErrors = true;
-    }
-    else if(AntalMinuter < appSettings.minMinutes)
-    {
-      setMinuteError(appSettings.errLessThanAllowedMin.format(appSettings.minMinutes));
-      encoutneredErrors = true;
-    }
-    else if(AntalMinuter > appSettings.maxMinutes)
-    {
-      setMinuteError(appSettings.errMoreThanAllowedMax.format(appSettings.maxMinutes));
-      encoutneredErrors = true;
-    }
-    else
-    {
-      setMinuteError("");
     }
 
     console.log(Date);

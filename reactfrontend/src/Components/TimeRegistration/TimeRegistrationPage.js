@@ -1,31 +1,23 @@
 import React, {useEffect, useState} from 'react'
 
 import { getData } from '../Data/JSONData';
+import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistrationPage.json';
 
 
 export const TimeRegistrationPage = props => {
-    const [appSettings, setAppSettings] = useState([]);
-
-    useEffect(()=>{
-      getData(props.settingsAddress).then( result => {
-        setAppSettings(result);
-      }
-      )
-      },
-      []
-    );
   
     const url = appSettings.apiUrl + `/${props.currentRegId}`;
     const [currentReg, setCurrentReg] = useState( null );
 
     useEffect(()=>{
-        getData(url).then( result => {
-            setCurrentReg(result);
-         }
-        )
-        },
-        []
-      );
+      getData(url).then( result => {
+          setCurrentReg(result);
+       }
+      )
+      },
+      []
+    );
+
     return (
         <section className='regPagePanel'>
         <div className='regPanelTitle'>

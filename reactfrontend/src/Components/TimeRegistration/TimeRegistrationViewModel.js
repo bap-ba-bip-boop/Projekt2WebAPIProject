@@ -1,7 +1,6 @@
 import React from 'react'
 
-export const TimeRegistrationViewModel = props => {
-  return (
+export const TimeRegistrationViewModel = props => 
     <a href="#" onClick=
       {
         ()=> {
@@ -13,5 +12,3 @@ export const TimeRegistrationViewModel = props => {
         <p className='timeregPropertyLabel'>{props.datum.split("T")[0]}</p>
         <p className='timeregPropertyLabel'>{props.antalMinuter} Minutes</p>
     </a>
-  )
-}

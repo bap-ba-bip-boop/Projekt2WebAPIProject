@@ -9,9 +9,10 @@ export const TimeRegistrationIndex = props => {
 
     useEffect( ()=>
         {
-            getData(props.getAllRegUrl).then( result => {
+            getData(props.getAllRegUrl)
+            .then( result => {
                 setRegistrations(result)
-            }
+                }
             )
         },
         []

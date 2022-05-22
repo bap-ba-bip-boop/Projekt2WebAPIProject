@@ -2,19 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import { ErrorMessage } from '../ErrorMessage';
 import {getData} from '../Data/JSONData';
+import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistrationEdit.json';
 
 export const TimeRegistrationEdit = props => {
-  const [appSettings, setAppSettings] = useState([]);
-
-  useEffect(()=>{
-    getData(props.settingsAddress).then( result => {
-      setAppSettings(result);
-    }
-    )
-    },
-    []
-  );
-
   const [itemUrl, setItemUrl] = useState(props.getOneRegUrl + `/${props.currentRegId}`);//appSettings.apiUrl +`/${props.currentRegId}`;
 
   const [timeReg, setTimeReg] = useState([]);
@@ -107,48 +97,46 @@ export const TimeRegistrationEdit = props => {
   }
 
   return (
-    <section>
-      <form id='editForm'>
-        <div className='formGroup'>
-          <label className='formLabel'>Antal Minuter</label>
-          <input
-          className='formInput'
-          onChange={e=>SetAntalMinuter(e.target.value)}
-          max={appSettings.maxMinutes}
-          min={appSettings.minMinutes}
-          required
-          type="number"
-          value={AntalMinuter}
-          />
-          {minuteError !== "" && <ErrorMessage message={minuteError}/>}
-        </div>
-        
-        <div className='formGroup'>
-          <label className='formLabel'>Datum</label>
-          <input
-          className='formInput'
-          onChange={e=>SetDatum(e.target.value)}
-          required
-          type="date"
-          value={Datum}
-          />
-          {dateError !== "" && <ErrorMessage message={dateError}/>}
-        </div>
+    <form id='editForm'>
+      <div className='formGroup'>
+        <label className='formLabel'>Antal Minuter</label>
+        <input
+        className='formInput'
+        onChange={e=>SetAntalMinuter(e.target.value)}
+        max={appSettings.maxMinutes}
+        min={appSettings.minMinutes}
+        required
+        type="number"
+        value={AntalMinuter}
+        />
+        {minuteError !== "" && <ErrorMessage message={minuteError}/>}
+      </div>
+      
+      <div className='formGroup'>
+        <label className='formLabel'>Datum</label>
+        <input
+        className='formInput'
+        onChange={e=>SetDatum(e.target.value)}
+        required
+        type="date"
+        value={Datum}
+        />
+        {dateError !== "" && <ErrorMessage message={dateError}/>}
+      </div>
 
-        <div className='formGroup'>
-          <label className='formLabel'>Beskrivning</label>
-          <textarea
-          className='formTextArea'
-          onChange={e=>SetBeskrivning(e.target.value) }
-          maxLength={appSettings.maxStrLength}
-          rows="4"
-          value={Beskrivning}
-          ></textarea>
-          {descError !== "" && <ErrorMessage message={descError}/>}
-        </div>
+      <div className='formGroup'>
+        <label className='formLabel'>Beskrivning</label>
+        <textarea
+        className='formTextArea'
+        onChange={e=>SetBeskrivning(e.target.value) }
+        maxLength={appSettings.maxStrLength}
+        rows="4"
+        value={Beskrivning}
+        ></textarea>
+        {descError !== "" && <ErrorMessage message={descError}/>}
+      </div>
 
-        <input className='formSubmit' onClick={(e)=>onRegister(e)} type="submit" value="Edit"/>
-      </form>
-    </section>
+      <input className='formSubmit' onClick={(e)=>onRegister(e)} type="submit" value="Edit"/>
+    </form>
   )
 }
