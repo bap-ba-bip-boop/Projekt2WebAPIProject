@@ -1,8 +1,8 @@
 {
     "startPage": "Start",
-    "newPage": "newReg",
-    "regPage": "regPage",
-    "editPage": "editPage",
+    "newPage": "NewReg",
+    "regPage": "RegPage",
+    "editPage": "EditPage",
     "apiUrl": "https://localhost:7045/tidsregistrering",
     "fetchMethod": "DELETE",
     "fetchHeaders": {
