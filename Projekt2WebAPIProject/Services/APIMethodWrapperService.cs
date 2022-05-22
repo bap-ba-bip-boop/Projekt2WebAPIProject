@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharedResources.Data;
-using WebAPI.Model;
 
 namespace WebAPI.Services;
 

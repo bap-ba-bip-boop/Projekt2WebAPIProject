@@ -1,7 +1,6 @@
 using AutoMapper;
 using SharedResources.Data;
 using WebAPI.DTO.TidsRegistrering;
-using WebAPI.Model;
 
 namespace WebAPI.Infrastructure.Profiles;
 

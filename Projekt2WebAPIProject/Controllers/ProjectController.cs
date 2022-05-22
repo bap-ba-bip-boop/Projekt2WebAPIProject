@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.DTO.Project;
-using WebAPI.Model;
 using WebAPI.Services;
 using static SharedResources.Services.IDbLookupService;
 

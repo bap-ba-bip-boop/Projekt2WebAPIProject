@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 using SharedResources.Services;
-using WebAPI.DTO.Project;
 using WebAPI.DTO.TidsRegistrering;
-using WebAPI.Model;
 using WebAPI.Services;
 using static SharedResources.Services.IDbLookupService;
 

@@ -10,7 +10,6 @@ using SystemTests.Services;
 using WebAPI.Controllers;
 using WebAPI.DTO.Project;
 using WebAPI.Infrastructure.Profiles;
-using WebAPI.Model;
 using WebAPI.Services;
 
 namespace SystemTests.WebAPI.Controllers;

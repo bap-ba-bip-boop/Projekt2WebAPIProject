@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 using SharedResources.Services;
+using SharedResources.Settings;
 using WebAPI.Infrastructure.Profiles;
-using WebAPI.Model;
 using WebAPI.Services;
-using WebAPI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

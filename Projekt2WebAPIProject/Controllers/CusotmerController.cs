@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SharedResources.Data;
 using SharedResources.Services;
 using WebAPI.DTO.Customer;
-using WebAPI.Model;
 using WebAPI.Services;
 using static SharedResources.Services.IDbLookupService;
 

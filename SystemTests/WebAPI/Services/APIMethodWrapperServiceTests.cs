@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedResources.Data;
 using SystemTests.Services;
-using WebAPI.Model;
 using WebAPI.Services;
 
 namespace SystemTests.WebAPI.Services;

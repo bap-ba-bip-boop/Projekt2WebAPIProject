@@ -2,7 +2,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 using SharedResources.Services;
-using WebAPI.Model;
 using static SharedResources.Services.ICreateUniqeService;
 
 namespace SystemTests.Services;

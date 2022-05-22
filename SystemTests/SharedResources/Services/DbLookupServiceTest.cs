@@ -4,7 +4,6 @@ using SharedResources.Services;
 using System;
 using System.Linq;
 using SystemTests.Services;
-using WebAPI.Model;
 using static SharedResources.Services.IDbLookupService;
 
 namespace SystemTests.Inlämning_API.Services;

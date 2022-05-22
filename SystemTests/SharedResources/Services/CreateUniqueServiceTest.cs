@@ -3,7 +3,6 @@ using SharedResources.Data;
 using SharedResources.Services;
 using System;
 using SystemTests.Services;
-using WebAPI.Model;
 using static SharedResources.Services.ICreateUniqeService;
 
 namespace SystemTests.SharedResources;

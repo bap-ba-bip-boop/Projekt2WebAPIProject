@@ -1,10 +1,18 @@
-﻿namespace WebAPI.Settings;
+﻿namespace SharedResources.Settings;
 
 public class DataInitializeSettings
 {
     public List<CusotmerInit>? CustomersToAdd { get; set; }
     public List<ProjectInit>? ProjectsToAdd { get; set; }
     public List<TidsRegistreringInit>? TidsRegistreringToAdd { get; set; }
+    public List<UserInit>? UsersToAdd { get; set; }
+}
+
+public class UserInit
+{
+    public string? UserName { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; }
 }
 
 public class CusotmerInit
