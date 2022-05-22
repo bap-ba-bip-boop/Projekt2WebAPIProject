@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import {fetchAllRegs} from '../Data/AllRegData';
+import { getData } from '../Data/JSONData';
 
 import {TimeRegistrationViewModel } from './TimeRegistrationViewModel';
 
 export const TimeRegistrationIndex = props => {
-
     const [registrations, setRegistrations] = useState([]);
 
     useEffect( ()=>
         {
-            fetchAllRegs().then( result => {
+            getData(props.getAllRegUrl).then( result => {
                 setRegistrations(result)
-                console.log(result)
             }
             )
         },
@@ -23,11 +21,13 @@ export const TimeRegistrationIndex = props => {
           {registrations.map( reg=>
               <TimeRegistrationViewModel
                 setCurrentTimeReg={props.setCurrentTimeReg}
+                changeActivePage={props.changeActivePage}
                 projectName ={reg.projectName}
                 key = {reg.tidsRegistreringId}
                 id = {reg.tidsRegistreringId}
                 datum = {reg.datum}
                 antalMinuter = {reg.antalMinuter}
+                redirectPage={props.redirectPage}
                 />
           )}
       </div>

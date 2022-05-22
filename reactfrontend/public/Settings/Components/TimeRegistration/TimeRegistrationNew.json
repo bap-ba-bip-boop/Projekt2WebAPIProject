@@ -1,0 +1,22 @@
+{
+  "apiUrl": "https://localhost:7045/tidsregistrering",
+  "PostDTO":{
+      "Beskrivning": "",
+      "Datum": "",
+      "AntalMinuter": "",
+      "ProjectId": ""
+    },
+  "fetchMethod": "POST",
+  "fetchHeaders": {
+      "Content-Type": "application/json"
+    },
+  "minMinutes": 1,
+  "maxMinutes": 1440,
+  "maxStrLength": 100,
+  "errMissingMinutes": "The amount of minutes is required",
+  "errLessThanAllowedMin": "can't have less than {1} Minutes",
+  "errMoreThanAllowedMax": "can't have more than {1} Minutes",
+  "errDateMissing": "A date is Required",
+  "errProjMissing": "You must select a project",
+  "errDescTooLong": "The message can't be longer than {1} characters"
+}
