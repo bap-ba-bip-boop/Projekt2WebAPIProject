@@ -21,10 +21,6 @@
 <div>
 @foreach(var reg in Model.TimeRegs!)
 {
-    <div>
-        <p>Date: @reg.Date</p>
-        <p>Time: @reg.MinutesSpent</p>
-        <p>Desc: @reg.Description</p>
-    </div>
+    <partial name="_ppVMListItemPartial" model="@reg"/>
 }
 </div>

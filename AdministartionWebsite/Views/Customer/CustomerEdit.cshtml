@@ -4,16 +4,24 @@
 @{
 }
 @model AdministartionWebsite.ViewModels.Customer.CustomerEditViewModel;
+<section>
+    <h1 class="customerIndexTitle">Customer Edit</h1>
 
-<form method="post">
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerNew" class="redirectButton">New</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerIndex" class="redirectButton">Back</a>
+    </nav>
 
-    <input type="hidden" asp-for="CustomerId" value=@Model.CustomerId>
+    <form method="post">
 
-    <div>
-        <label asp-for="CustomerName"></label>
-        <input asp-for="CustomerName"/>
-        <span asp-validation-for="CustomerName"></span>
-    </div>
+        <input type="hidden" asp-for="CustomerId" value=@Model.CustomerId>
 
-    <input type="submit" value="Edit">
-</form>
+        <div>
+            <label asp-for="CustomerName"></label>
+            <input asp-for="CustomerName"/>
+            <span asp-validation-for="CustomerName"></span>
+        </div>
+
+        <input type="submit" value="Edit">
+    </form>
+</section>

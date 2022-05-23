@@ -4,14 +4,21 @@
 @{
 }
 @model AdministartionWebsite.ViewModels.Customer.CustomerNewViewModel;
+<section>
+    <h1 class="customerIndexTitle">Customer New</h1>
 
-<form method="post">
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerIndex" class="redirectButton">Back</a>
+    </nav>
 
-    <div>
-        <label asp-for="CustomerName"></label>
-        <input asp-for="CustomerName"/>
-        <span asp-validation-for="CustomerName"></span>
-    </div>
+    <form method="post">
 
-    <input type="submit" value="Create">
-</form>
+        <div>
+            <label asp-for="CustomerName"></label>
+            <input asp-for="CustomerName"/>
+            <span asp-validation-for="CustomerName"></span>
+        </div>
+
+        <input type="submit" value="Create">
+    </form>
+</section>

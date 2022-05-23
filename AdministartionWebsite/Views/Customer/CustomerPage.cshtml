@@ -5,22 +5,21 @@
 }
 @model AdministartionWebsite.ViewModels.Customer.CustomerPageViewModel;
 
-<div>
+<section>
     <h2>Customer Name: @Model.CustomerName</h2>
 
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerNew">new</a>
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@Model.CustomerId">edit</a>
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@Model.CustomerId">delete</a>
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerNew" class="redirectButton">New</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@Model.CustomerId" class="redirectButton">Edit</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@Model.CustomerId" class="redirectButton">Delete</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerIndex" class="redirectButton">Back</a>
+    </nav>
     
     <div>
         <h3>Projects</h3>
     @foreach(var proj in Model.CustomerProjects!)
     {
-        <div>
-            <p>Project Name: @proj.ProjectName</p>
-            <p>Amount of Regs: @proj.regAmount</p>
-            <p>Latest Reg: @proj.latestRegDate</p>
-        </div>
+        <partial name="_cppListItemPartial" model="@proj"/>
     }
     </div>
-</div>
+</section>

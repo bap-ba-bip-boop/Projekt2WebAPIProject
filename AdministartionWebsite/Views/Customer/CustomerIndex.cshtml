@@ -1,23 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @model AdministartionWebsite.ViewModels.Customer.CustomerIndexViewModel;
 
-<a asp-area="" asp-controller="Customer" asp-action="CustomerNew">new customer</a>
+<section class="customerIndexContainer">
+    <h1 class="customerIndexTitle">Customer Index</h1>
 
-<div>
-@foreach(var cust in Model.Customers!)
-{
-    <partial name="_ciVMListItemPartial" model="@cust"/>
-    <!--
-    <div>
-        <p>@cust.CustomerName</p>
-        <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@cust.CustomerId">link</a>
-        <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@cust.CustomerId">edit</a>
-        <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@cust.CustomerId">delete</a>
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerNew" class="redirectButton">New</a>
+    </nav>
+
+    <div class="customerIndexContent">
+    @foreach(var cust in Model.Customers!)
+    {
+        <partial name="_ciVMListItemPartial" model="@cust"/>
+    }
     </div>
-    -->
-}
-</div>
+</section>

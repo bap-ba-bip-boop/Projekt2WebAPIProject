@@ -10,12 +10,6 @@
 <div>
 @foreach(var proj in Model.Projects!)
 {
-    <div>
-        <p>Project: @proj.ProjectName</p>
-        <p>For: @proj.CustomerName</p>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectPage" asp-route-Id="@proj.ProjectId">link</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@proj.ProjectId">edit</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@proj.ProjectId">delete</a>
-    </div>
+    <partial name="_piVMListItemPartial" model="@proj"/>
 }
 </div>

@@ -5,9 +5,9 @@
 }
 @model AdministartionWebsite.ViewModels.Customer.CustomerIndexVMListItem;
 
-<div>
-    <p>@Model.CustomerName</p>
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@Model.CustomerId">link</a>
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@Model.CustomerId">edit</a>
-    <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@Model.CustomerId">delete</a>
+<div class="customerIndexListItem">
+    <h2>@Model.CustomerName</h2>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@Model.CustomerId" class="smallRedirectButton">link</a>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@Model.CustomerId" class="smallRedirectButton">edit</a>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@Model.CustomerId" class="smallRedirectButton">delete</a>
 </div>

@@ -3,14 +3,24 @@
 }
 @model AdministartionWebsite.ViewModels.Home.HomeViewModel;
 
-<div>
-    <h3>Customers</h3>
-    <p>We have: @Model.CustomerAmount Customers</p>
-    <p>Newest Customer: @Model.NewestCustomerName</p>
-    <h3>Projects</h3>
-    <p>We have @Model.ProjectAmount Projects</p>
-    <p>Most Projects for a Customer: @Model.MostProjectsForCustomer</p>
-    <p>Project with the most time registrations: @Model.MostRegsProject</p>
-    <h3>Time Registrations</h3>
-    <p>Time Registrations Today: @Model.AmountOfRegsToday</p>
-</div>
+<section class="indexContainer">
+    <h1 class="indexTitle">Home Page</h1>
+    
+    <a class="indexCustPanel" asp-area="" asp-controller="Customer" asp-action="CustomerIndex">
+        <h2>Customers</h2>
+        <p>We have: @Model.CustomerAmount Customers</p>
+        <p>Newest Customer: @Model.NewestCustomerName</p>
+    </a>
+
+    <a class="indexProjPanel" asp-area="" asp-controller="Project" asp-action="ProjectIndex">
+        <h2>Projects</h2>
+        <p>We have @Model.ProjectAmount Projects</p>
+        <p>Most Projects for a Customer: @Model.MostProjectsForCustomer</p>
+        <p>Project with the most time regs: @Model.MostRegsProject</p>
+    </a>
+
+    <div class="indexTimeRegPanel">
+        <h2>Time Registrations</h2>
+        <p>Time Registrations Today: @Model.AmountOfRegsToday</p>
+    </div>
+</section>
