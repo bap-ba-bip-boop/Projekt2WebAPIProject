@@ -67,10 +67,9 @@ export const TimeRegistrationEdit = props => {
           headers: appSettings.fetchHeaders,
           body: JSON.stringify(appSettings.PutDTO)
         }
-      ).then(
-        result =>
-        {
-          //console.log(result);
+      )
+      .then(
+        result => {
           props.changeActivePage(props.startPage)
         }
       )

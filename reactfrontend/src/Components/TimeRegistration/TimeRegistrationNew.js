@@ -73,10 +73,9 @@ export const TimeRegistrationNew = props => {
           headers: appSettings.fetchHeaders,
           body: JSON.stringify(appSettings.PostDTO)
         }
-      ).then(
-        result =>
-        {
-          //console.log(result);
+      )
+      .then(
+        result => {
           props.changeActivePage(props.startPage);
         }
       )
