@@ -10,26 +10,26 @@ public class CustomerProfile : Profile
     {
         var _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<ProjectProfile>();
+            cfg.AddProfile<TimeRegProfile>();
         }
         ).CreateMapper();
 
         CreateMap<Customer, CustomerIndexVMListItem>();
         CreateMap<Customer, CustomerPageViewModel>()
-        .ForMember(
-            src => src.CustomerProjects,
-            opt => opt.MapFrom(
-                src => src.Projects!
-                    .Select(_mapper.Map<CustomerPageProjectListItem>)
-                    .ToList()
-            )
-        );
+            .ForMember(
+                src => src.CustomerProjects,
+                opt => opt.MapFrom(
+                    src => src.Projects!
+                        .Select(_mapper.Map<CustomerPageProjectListItem>)
+                        .ToList()
+                )
+            );
         CreateMap<CustomerNewViewModel, Customer>();
         CreateMap<CustomerEditViewModel, Customer>()
-        .ForMember(
-            src => src.Projects,
-            opt => opt.Ignore()
-        )
-        .ReverseMap();
+            .ForMember(
+                src => src.Projects,
+                opt => opt.Ignore()
+            )
+            .ReverseMap();
     }
 }

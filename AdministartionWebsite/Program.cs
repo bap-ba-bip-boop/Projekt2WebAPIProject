@@ -21,6 +21,7 @@ _services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConf
 _services.AddControllersWithViews();
 
 _services
+    .AddAutoMapper(typeof(TimeRegProfile))
     .AddAutoMapper(typeof(ProjectProfile))
     .AddAutoMapper(typeof(CustomerProfile))
     ;

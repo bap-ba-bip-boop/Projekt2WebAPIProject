@@ -1,4 +1,5 @@
 using AdministartionWebsite.ViewModels.Customer;
+using AdministartionWebsite.ViewModels.Project;
 using AutoMapper;
 using SharedResources.Data;
 
@@ -8,6 +9,12 @@ public class ProjectProfile : Profile
 {
     public ProjectProfile()
     {
+        var _mapper = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<TimeRegProfile>();
+        }
+
+        ).CreateMapper();
         CreateMap<Project, CustomerPageProjectListItem>()
             .ForMember(
                 src => src.regAmount,
@@ -21,5 +28,32 @@ public class ProjectProfile : Profile
                     src => src.TimeRegs!.First().Datum
                 )
             );
+        CreateMap<Project, ProjectIndexVMListItem>();
+        CreateMap<Project, ProjectPageViewModel>()
+            .ForMember(
+                src => src.CustomerName,
+                opt => opt.MapFrom(
+                    src => src.Customer!.Name
+                )
+            )
+            .ForMember(
+                src => src.TotalMinutesSpent,
+                opt => opt.MapFrom(
+                    src => src.TimeRegs!
+                    .Select(reg =>
+                        reg.AntalMinuter
+                    )
+                    .Sum()
+                )
+            )
+            .ForMember(
+                src => src.TimeRegs,
+                opt => opt.MapFrom(
+                    src => src.TimeRegs!
+                    .Select(_mapper.Map<ProjectPageViewModelListItem>)
+                    .ToList()
+                )
+            )
+            ;
     }
 }
