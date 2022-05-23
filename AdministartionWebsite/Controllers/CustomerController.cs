@@ -1,4 +1,5 @@
 ﻿using AdministartionWebsite.ViewModels.Customer;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
@@ -8,45 +9,31 @@ namespace AdministartionWebsite.Controllers;
 public class CustomerController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public CustomerController(ApplicationDbContext context)
+    public CustomerController(ApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     public IActionResult CustomerIndex()
     {
         var ciViewModel = new CustomerIndexViewModel
         {
-            Customers = _context.Customers!.Select(customer =>
-               new CustomerIndexVMListItem
-               {
-                   Name = customer.Name,
-                   Id = customer.CustomerId
-               }
-            ).ToList()
+            Customers = _context.Customers!
+                .Select(_mapper.Map<CustomerIndexVMListItem>)
+                .ToList()
         };
         return View(ciViewModel);
     }
-
     public IActionResult CustomerPage(int Id)
     {
-        var customer = _context.Customers!.First(cust => cust.CustomerId == Id);
+        var customer = _context.Customers!
+        .Include(cust => cust.Projects)!
+        .ThenInclude(proj => proj.TimeRegs)
+        .First(cust => cust.CustomerId == Id);
 
-        var cpViewModel = new CustomerPageViewModel
-        {
-            Id = customer.CustomerId,
-            CustomerName = customer.Name,
-            CustomerProjects = _context.Projects!
-                .Where(proj => proj.CustomerId == customer.CustomerId)
-                .Include(proj => proj.TimeRegs)
-                .Select(proj => new CustomerPageListItem
-                {
-                    Id = proj.ProjectId,
-                    Name = proj.ProjectName,
-                    regAmount = proj.TimeRegs!.Count(),
-                    latestRegDate = proj.TimeRegs!.First().Datum
-                }).ToList()
-        };
+        var cpViewModel = _mapper.Map<CustomerPageViewModel>(customer);
 
         return View(cpViewModel);
     }
@@ -58,6 +45,46 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult CustomerNew(CustomerNewViewModel cnViewModel)
     {
+        if(ModelState.IsValid)
+        {
+            _context.Customers!.Add(
+                _mapper.Map<Customer>(cnViewModel)
+            );
+            _context.SaveChanges();
+            return RedirectToAction(nameof(CustomerIndex));
+        }
         return View(cnViewModel);
+    }
+    [HttpGet]
+    public IActionResult CustomerEdit(int Id)
+    {
+        var customerToEdit = _context.Customers!.First(cust => cust.CustomerId == Id);
+
+        var editViewModel = _mapper.Map<CustomerEditViewModel>(customerToEdit);
+
+        return View(editViewModel);
+    }
+    [HttpPost]
+    public IActionResult CustomerEdit(CustomerEditViewModel ceViewModel)
+    {
+        if(ModelState.IsValid)
+        {
+            var customerToEdit = _context.Customers!.First(cust => cust.CustomerId == ceViewModel.CustomerId);
+
+            customerToEdit = _mapper.Map<Customer>(ceViewModel);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(CustomerIndex));
+        }
+        return View(ceViewModel);
+    }
+    public IActionResult CustomerDelete(int Id)
+    {
+        var customerToDelete = _context.Customers!.First(cust => cust.CustomerId == Id);
+
+        _context.Customers!.Remove(customerToDelete);
+        _context.SaveChanges();
+
+        return RedirectToAction(nameof(CustomerIndex));
     }
 }

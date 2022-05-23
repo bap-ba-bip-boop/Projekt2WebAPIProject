@@ -2,15 +2,15 @@
 
 public class CustomerPageViewModel
 {
-    public int Id { get; set; }
+    public int CustomerId { get; set; }
     public string? CustomerName { get; set; }
-    public List<CustomerPageListItem>? CustomerProjects { get; set; }
+    public List<CustomerPageProjectListItem>? CustomerProjects { get; set; }
 }
 
-public class CustomerPageListItem
+public class CustomerPageProjectListItem
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
+    public int ProjectId { get; set; }
+    public string? ProjectName { get; set; }
     public int regAmount { get; set; }
     public DateTime latestRegDate { get; set; }
 }

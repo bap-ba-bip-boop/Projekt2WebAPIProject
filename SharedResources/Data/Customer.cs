@@ -10,4 +10,6 @@ public class Customer
     [Required]
     [MaxLength(30)]
     public string? Name { get; set; }
+
+    public List<Project>? Projects { get; set; }
 }

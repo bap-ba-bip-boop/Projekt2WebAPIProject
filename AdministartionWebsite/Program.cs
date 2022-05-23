@@ -1,6 +1,7 @@
 using SharedResources.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using AdministartionWebsite.Infrastructure.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,11 @@ _services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConf
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 _services.AddControllersWithViews();
+
+_services
+    .AddAutoMapper(typeof(ProjectProfile))
+    .AddAutoMapper(typeof(CustomerProfile))
+    ;
 
 var app = builder.Build();
 

@@ -1,0 +1,19 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AdministartionWebsite.ViewModels.Customer.CustomerEditViewModel;
+
+<form method="post">
+
+    <input type="hidden" asp-for="CustomerId" value=@Model.CustomerId>
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name"/>
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <input type="submit" value="Edit">
+</form>

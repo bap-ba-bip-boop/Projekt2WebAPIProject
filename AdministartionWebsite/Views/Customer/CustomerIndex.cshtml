@@ -5,12 +5,16 @@
 }
 @model AdministartionWebsite.ViewModels.Customer.CustomerIndexViewModel;
 
+<a asp-area="" asp-controller="Customer" asp-action="CustomerNew">new customer</a>
+
 <div>
 @foreach(var cust in Model.Customers!)
 {
     <div>
         <p>@cust.Name</p>
-        <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@cust.Id">link</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@cust.CustomerId">link</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@cust.CustomerId">edit</a>
+        <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@cust.CustomerId">delete</a>
     </div>
 }
 </div>
