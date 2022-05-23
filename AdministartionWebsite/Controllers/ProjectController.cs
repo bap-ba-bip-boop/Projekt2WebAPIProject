@@ -22,7 +22,7 @@ public class ProjectController : Controller
                {
                    ProjectName = project.ProjectName,
                    Id = project.CustomerId,
-                   CustomerName = project.Customer!.Name
+                   CustomerName = project.Customer!.CustomerName
                }
             ).ToList()
         };

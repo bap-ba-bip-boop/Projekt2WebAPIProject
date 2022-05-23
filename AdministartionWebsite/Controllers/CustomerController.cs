@@ -71,7 +71,7 @@ public class CustomerController : Controller
         {
             var customerToEdit = _context.Customers!.First(cust => cust.CustomerId == ceViewModel.CustomerId);
 
-            customerToEdit = _mapper.Map<Customer>(ceViewModel);
+            _mapper.Map(ceViewModel, customerToEdit);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(CustomerIndex));

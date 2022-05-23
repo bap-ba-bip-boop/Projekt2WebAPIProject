@@ -6,5 +6,5 @@ public class CustomerNewViewModel
 {
     [Required]
     [MaxLength(30)]
-    public string? Name { get; set; }
+    public string? CustomerName { get; set; }
 }

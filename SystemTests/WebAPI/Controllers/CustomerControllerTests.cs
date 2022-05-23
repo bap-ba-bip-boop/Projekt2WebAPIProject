@@ -117,10 +117,10 @@ public class CustomerControllerTest
             }
         );
 
-        var AddedItem = _context.Customers!.First(customer => customer.Name == NameToAdd);
+        var AddedItem = _context.Customers!.First(customer => customer.CustomerName == NameToAdd);
 
         Assert.IsNotNull(AddedItem);
-        Assert.AreEqual(NameToAdd, AddedItem.Name);
+        Assert.AreEqual(NameToAdd, AddedItem.CustomerName);
     }
     //HTTP PUT
     [TestMethod]
@@ -149,7 +149,7 @@ public class CustomerControllerTest
                     existingID,
                     new CustomerPutDTO
                     {
-                        Name = existingItem.Name
+                        Name = existingItem.CustomerName
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -173,7 +173,7 @@ public class CustomerControllerTest
         var EditedCustomer = _context.Customers!.First(customer => customer.CustomerId == CustomerIDToReplace);
 
         Assert.IsNotNull(EditedCustomer);
-        Assert.AreEqual(NameToEdit, EditedCustomer.Name);
+        Assert.AreEqual(NameToEdit, EditedCustomer.CustomerName);
     }
     //HTTP DELETE
     [TestMethod]
@@ -243,7 +243,7 @@ public class CustomerControllerTest
         var existingID = _context.Customers!.First().CustomerId;
 
         var body = new JsonPatchDocument<Customer>();
-        body.Replace(customer => customer.Name, "This is the new Value");
+        body.Replace(customer => customer.CustomerName, "This is the new Value");
 
         Assert.IsTrue(
             _tester.APITestResponseCode(

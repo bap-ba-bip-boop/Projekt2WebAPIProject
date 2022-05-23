@@ -8,5 +8,5 @@ public class CustomerIndexViewModel
 public class CustomerIndexVMListItem
 {
     public int CustomerId { get; set; }
-    public string? Name { get; set; }
+    public string? CustomerName { get; set; }
 }

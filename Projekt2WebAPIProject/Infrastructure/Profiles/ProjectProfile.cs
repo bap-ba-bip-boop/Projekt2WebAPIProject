@@ -12,14 +12,14 @@ public class ProjectProfile : Profile
             .ForMember(
                 src => src.CustomerName,
                 opt => opt.MapFrom(
-                        src => src.Customer!.Name
+                        src => src.Customer!.CustomerName
                     )
             );
         CreateMap<Project, ProjectGetOneDTO>()
             .ForMember(
                 src => src.CustomerName,
                 opt => opt.MapFrom(
-                        src => src.Customer!.Name
+                        src => src.Customer!.CustomerName
                     )
             );
         CreateMap<ProjectPostDTO, Project>();
