@@ -123,10 +123,13 @@
 .customerIndexTitle
 {
     grid-area: title;
+    font-size: 2em;
+    text-align: center;
 }
 .customerIndexButtonPanel
 {
     grid-area: buttons;
+    margin: 1vh 0vw 1vh 0vw;
     text-align: center;
 }
 .customerIndexContent
@@ -188,6 +191,66 @@
 }
 .smallRedirectButton:active
 {
+    transition: 0.2s;
+    filter: brightness(0.8);
+}
+
+/*customerNewContainer*/
+.customerNewContainer
+{
+    grid-template-areas:
+        "title"
+        "buttons"
+        "form";
+    grid-template-rows: 40px 40px 1fr;
+    width: 100%;
+}
+
+.customerForm
+{
+    grid-area: from;
+}
+
+.formGroup
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.formInput
+{
+    color: purple;
+    font-size: 2em;
+}
+
+.formLabel
+{
+    font-size: 1.5em;
+}
+
+.formError
+{
+    color: red;
+}
+
+.formSubmit
+{
+    background-color: darkviolet;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    display: inline;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.6;
+    margin: 1vh 0vw;
+    padding: 1vh 2vw;
+}
+.formSubmit:hover{
+    transition: 0.2s;
+    filter: brightness(1.2);
+}
+.formSubmit:active{
     transition: 0.2s;
     filter: brightness(0.8);
 }
