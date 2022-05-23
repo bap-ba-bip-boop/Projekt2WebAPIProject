@@ -78,10 +78,10 @@ public class DataInitialize
             _creator.CreateIfNotExists(
                 _context,
                 _context.Customers!,
-                cust => cust.Name!.Equals(customer.CustomerName),
+                cust => cust.CustomerName!.Equals(customer.CustomerName),
                 new Customer
                 {
-                    Name = customer.CustomerName
+                    CustomerName = customer.CustomerName
                 }
             )
         );

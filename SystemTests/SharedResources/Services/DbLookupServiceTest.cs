@@ -28,10 +28,10 @@ public class DbLookupServiceTest
         _creator.CreateIfNotExists(
             _context,
             _context.Customers!,
-            item => item.Name!.Equals(name),
+            item => item.CustomerName!.Equals(name),
             new Customer
             {
-                Name = name
+                CustomerName = name
             }
         );
 
@@ -51,7 +51,7 @@ public class DbLookupServiceTest
         var nonExistingAccount = new Customer
         {
             CustomerId = -1,
-            Name = "name"
+            CustomerName = "name"
         };
 
         var (returnStatus, returnAd) = _sut.VerifyItemID(nonExistingAccount.CustomerId, nameof(nonExistingAccount.CustomerId), _context.Customers!.ToList());

@@ -29,10 +29,10 @@ public class CreateUniqueServiceTest
         _sut.CreateIfNotExists(
             _context,
             _context.Customers!,
-            item => item.Name!.Equals(name),
+            item => item.CustomerName!.Equals(name),
             new Customer
             {
-                Name = name,
+                CustomerName = name,
             }
         );
     [TestMethod]

@@ -18,10 +18,10 @@ class TestDatabaseService
         _creator.CreateIfNotExists(
             _context,
             _context.Customers!,
-            item => item.Name!.Equals(name),
+            item => item.CustomerName!.Equals(name),
             new Customer
             {
-                Name = name
+                CustomerName = name
             }
         );
     public static CreateUniqueStatus AddProject(string name, int customerId, CreateUniqeService _creator, ApplicationDbContext _context) =>

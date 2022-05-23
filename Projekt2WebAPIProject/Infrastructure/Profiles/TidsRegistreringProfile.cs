@@ -25,7 +25,7 @@ public class TidsRegistreringProfile : Profile
             .ForMember(
                 src => src.CustomerName,
                 opt => opt.MapFrom(
-                    src => src.Project!.Customer!.Name
+                    src => src.Project!.Customer!.CustomerName
                 )
             );
         CreateMap<TidsRegistreringPostDTO, TidsRegistrering>();
