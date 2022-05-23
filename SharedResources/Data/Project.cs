@@ -12,4 +12,6 @@ public class Project
     [Required]
     public int CustomerId { get; set; }
     public Customer? Customer { get; set; }
+
+    public List<TidsRegistrering>? TimeRegs { get; set; }
 }

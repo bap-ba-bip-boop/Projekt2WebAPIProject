@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AdministartionWebsite.ViewModels.Customer.CustomerPageViewModel;
+
+<div>
+    <p>Customer Name: @Model.CustomerName</p>
+
+    <div>
+        <h2>Projects</h2>
+    @foreach(var proj in Model.CustomerProjects!)
+    {
+        <div>
+            <p>Project Name: @proj.Name</p>
+            <p>Amount of Regs: @proj.regAmount</p>
+            <p>Latest Reg: @proj.latestRegDate</p>
+        </div>
+    }
+    </div>
+</div>
