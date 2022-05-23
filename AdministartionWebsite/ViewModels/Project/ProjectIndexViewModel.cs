@@ -7,7 +7,7 @@ public class ProjectIndexViewModel
 
 public class ProjectIndexVMListItem
 {
-    public int Id { get; set; }
+    public int ProjectId { get; set; }
     public string? ProjectName { get; set; }
     public string? CustomerName { get; set; }
 }

@@ -28,12 +28,19 @@ public class ProjectProfile : Profile
                     src => src.TimeRegs!.First().Datum
                 )
             );
-        CreateMap<Project, ProjectIndexVMListItem>();
+        CreateMap<Project, ProjectIndexVMListItem>()
+            .ForMember(
+                src => src.CustomerName,
+                opt => opt.MapFrom(
+                    src => src.Customer!.CustomerName
+                )
+            )
+            ;
         CreateMap<Project, ProjectPageViewModel>()
             .ForMember(
                 src => src.CustomerName,
                 opt => opt.MapFrom(
-                    src => src.Customer!.Name
+                    src => src.Customer!.CustomerName
                 )
             )
             .ForMember(
