@@ -1,0 +1,13 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AdministartionWebsite.ViewModels.Customer.CustomerIndexVMListItem;
+
+<div>
+    <p>@Model.CustomerName</p>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@Model.CustomerId">link</a>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@Model.CustomerId">edit</a>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@Model.CustomerId">delete</a>
+</div>

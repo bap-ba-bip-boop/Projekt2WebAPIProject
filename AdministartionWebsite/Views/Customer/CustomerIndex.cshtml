@@ -10,11 +10,14 @@
 <div>
 @foreach(var cust in Model.Customers!)
 {
+    <partial name="_ciVMListItemPartial" model="@cust"/>
+    <!--
     <div>
         <p>@cust.CustomerName</p>
         <a asp-area="" asp-controller="Customer" asp-action="CustomerPage" asp-route-ID="@cust.CustomerId">link</a>
         <a asp-area="" asp-controller="Customer" asp-action="CustomerEdit" asp-route-ID="@cust.CustomerId">edit</a>
         <a asp-area="" asp-controller="Customer" asp-action="CustomerDelete" asp-route-ID="@cust.CustomerId">delete</a>
     </div>
+    -->
 }
 </div>
