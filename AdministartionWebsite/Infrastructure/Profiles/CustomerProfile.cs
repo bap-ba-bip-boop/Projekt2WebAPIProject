@@ -10,7 +10,7 @@ public class CustomerProfile : Profile
     {
         var _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<TimeRegProfile>();
+            cfg.AddProfile<ProjectProfile>();
         }
         ).CreateMapper();
 
@@ -20,7 +20,7 @@ public class CustomerProfile : Profile
                 src => src.CustomerProjects,
                 opt => opt.MapFrom(
                     src => src.Projects!
-                        .Select(_mapper.Map<CustomerPageProjectListItem>)
+                        .Select(proj => _mapper.Map<CustomerPageProjectListItem>(proj))
                         .ToList()
                 )
             );

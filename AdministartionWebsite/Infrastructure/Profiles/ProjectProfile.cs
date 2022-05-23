@@ -25,7 +25,7 @@ public class ProjectProfile : Profile
             .ForMember(
                 src => src.latestRegDate,
                 opt => opt.MapFrom(
-                    src => src.TimeRegs!.First().Datum
+                    src => src.TimeRegs!.Last().Datum
                 )
             );
         CreateMap<Project, ProjectIndexVMListItem>()

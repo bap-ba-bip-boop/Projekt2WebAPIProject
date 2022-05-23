@@ -1,8 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model AdministartionWebsite.ViewModels.Home.HomeViewModel;
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h3>Customers</h3>
+    <p>We have: @Model.CustomerAmount Customers</p>
+    <p>Newest Customer: @Model.NewestCustomerName</p>
+    <h3>Projects</h3>
+    <p>We have @Model.ProjectAmount Projects</p>
+    <p>Most Projects for a Customer: @Model.MostProjectsForCustomer</p>
+    <p>Project with the most time registrations: @Model.MostRegsProject</p>
+    <h3>Time Registrations</h3>
+    <p>Time Registrations Today: @Model.AmountOfRegsToday</p>
 </div>
