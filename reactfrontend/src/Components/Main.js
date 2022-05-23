@@ -5,34 +5,32 @@ import {TimeRegistrationEdit} from './TimeRegistration/TimeRegistrationEdit';
 import {TimeRegistrationNew} from './TimeRegistration/TimeRegistrationNew';
 import {TimeRegistrationPage} from './TimeRegistration/TimeRegistrationPage';
 
-export const Main = props => {
-
-  const tidsRegistreringsAPIGet = "https://localhost:7045/tidsregistrering";
-  const projectAPIGetAll = "https://localhost:7045/project";
+//const tidsRegistreringsAPIGet = "https://localhost:7045/tidsregistrering";
+//const projectAPIGetAll = "https://localhost:7045/project";
   
-  return (
+
+export const Main = props => 
     <main className='siteMain'>
       {props.activePage === props.startPage && <TimeRegistrationIndex
-        setCurrentTimeReg={props.setCurrentTimeReg}
         changeActivePage={props.changeActivePage}
-        getAllRegUrl={tidsRegistreringsAPIGet}
         redirectPage={props.regPage}
+        setCurrentTimeReg={props.setCurrentTimeReg}
+        getAllRegUrl={props.tidsRegistreringsAPIGet}
         />}
       {props.activePage === props.newPage && <TimeRegistrationNew
-        setCurrentTimeReg={props.setCurrentTimeReg}
         changeActivePage={props.changeActivePage}
+        setCurrentTimeReg={props.setCurrentTimeReg}
         startPage={props.startPage}
-        getAllProjUrl={projectAPIGetAll}
+        getAllProjUrl={props.projectAPIGetAll}
+        getRegUrl={props.tidsRegistreringsAPIGet}
         />}
       {props.activePage === props.editPage && <TimeRegistrationEdit
         changeActivePage={props.changeActivePage}
         currentRegId={props.currentRegId}
         startPage={props.startPage}
-        getOneRegUrl={tidsRegistreringsAPIGet}
+        getOneRegUrl={props.tidsRegistreringsAPIGet}
         />}
       {props.activePage === props.regPage && <TimeRegistrationPage 
         currentRegId={props.currentRegId}
         />}
     </main>
-  )
-}

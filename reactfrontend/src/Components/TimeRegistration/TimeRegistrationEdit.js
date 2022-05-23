@@ -3,20 +3,21 @@ import React, { useState, useEffect } from 'react'
 import { ErrorMessage } from '../ErrorMessage';
 import {getData} from '../Data/JSONData';
 import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistrationEdit.json';
+import { minuteValidation, dateValidation, descValidation } from '../SharedMethods/FormValidation';
 
 export const TimeRegistrationEdit = props => {
-  const [itemUrl, setItemUrl] = useState(props.getOneRegUrl + `/${props.currentRegId}`);//appSettings.apiUrl +`/${props.currentRegId}`;
+  const itemUrl = props.getOneRegUrl + `/${props.currentRegId}`;
 
   const [timeReg, setTimeReg] = useState([]);
 
   useEffect(()=>{
-    getData(itemUrl).then( result => {
+    getData(itemUrl)
+    .then( result => {
       setTimeReg(result)
       SetDatum(result.datum.split("T")[0]);
       SetAntalMinuter(result.antalMinuter);
       SetBeskrivning(result.beskrivning);
-     }
-    )
+     })
     },
     []
   );
@@ -30,16 +31,37 @@ export const TimeRegistrationEdit = props => {
   const [descError, setDescError] = useState("");
 
   const onRegister = (event)=>{
-
+    let encoutneredErrors = false;
     event.preventDefault();
 
-    if(editForm.checkValidity())
+    let minuteVal = minuteValidation(AntalMinuter);
+    if(minuteVal != "")
+    {
+      setMinuteError(minuteVal);
+      encoutneredErrors = true;
+    }
+
+    let dateVal = dateValidation(Datum);
+    if(dateVal != "")
+    {
+      setDateError(dateVal);
+      encoutneredErrors = true;
+    }
+
+    let descVal = descValidation(Beskrivning);
+    if(descVal != "")
+    {
+      setDescError(Beskrivning);
+      encoutneredErrors = true;
+    }
+
+    if(!encoutneredErrors)
     {
       appSettings.PutDTO.Beskrivning = Beskrivning;
       appSettings.PutDTO.Datum = Datum;
       appSettings.PutDTO.AntalMinuter = AntalMinuter;
       fetch(
-        url,
+        itemUrl,
         {
           method: appSettings.fetchMethod,
           headers: appSettings.fetchHeaders,
@@ -48,56 +70,15 @@ export const TimeRegistrationEdit = props => {
       ).then(
         result =>
         {
-          console.log(result);
+          //console.log(result);
           props.changeActivePage(props.startPage)
         }
       )
     }
-    else
-    {
-      console.log("form failed");
-      console.log(AntalMinuter);
-      if(!AntalMinuter || AntalMinuter === 0)
-      {
-        setMinuteError(appSettings.errMissingMinutes);
-      }
-      else if(AntalMinuter < appSettings.minMinutes)
-      {
-        setMinuteError(appSettings.errLessThanAllowedMin.format(appSettings.minMinutes));
-      }
-      else if(AntalMinuter > appSettings.maxMinutes)
-      {
-        setMinuteError(appSettings.errMoreThanAllowedMax.format(appSettings.maxMinutes));
-      }
-      else
-      {
-        setMinuteError("");
-      }
-
-      console.log(Datum);
-      if(!Datum)
-      {
-        setDateError(appSettings.errDateMissing);
-      }
-      else
-      {
-        setDateError("");
-      }
-
-      console.log(Beskrivning.length);
-      if(Beskrivning.length > appSettings.maxStrLength)
-      {
-        setDescError(appSettings.errDescTooLong.format(appSettings.maxStrLength));
-      }
-      else
-      {
-        setDescError("");
-      }
-    }
   }
 
   return (
-    <form id='editForm'>
+    <form>
       <div className='formGroup'>
         <label className='formLabel'>Antal Minuter</label>
         <input

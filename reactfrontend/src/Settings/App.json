@@ -7,5 +7,6 @@
     "fetchMethod": "DELETE",
     "fetchHeaders": {
         "Content-Type": "application/json"
-      }
+      },
+    "projApiUrl": "https://localhost:7045/project"
 }

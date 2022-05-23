@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { ErrorMessage } from '../ErrorMessage';
 import {getData} from '../Data/JSONData';
 import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistrationNew.json';
-import { minuteValidation } from '../SharedMethods/FormValidation';
+import { minuteValidation, dateValidation, projValidation, descValidation } from '../SharedMethods/FormValidation';
 
 export const TimeRegistrationNew = props => {
 
@@ -20,10 +20,10 @@ export const TimeRegistrationNew = props => {
   const [projectError, setProjError] = useState("");
 
   useEffect(()=>{
-    getData(props.getAllProjUrl).then( result => {
+    getData(props.getAllProjUrl)
+    .then( result => {
       setProjects(result);
-     }
-    )
+     })
     },
     []
   );
@@ -32,66 +32,32 @@ export const TimeRegistrationNew = props => {
     let encoutneredErrors = false;
     event.preventDefault();
 
-    //if(!AntalMinuter || AntalMinuter === 0)
-    //{
-    //  console.log(appSettings.errMissingMinutes)
-    //  setMinuteError(appSettings.errMissingMinutes);
-    //  encoutneredErrors = true;
-    //}
-    //else if(AntalMinuter < appSettings.minMinutes)
-    //{
-    //  setMinuteError(appSettings.errLessThanAllowedMin.format(appSettings.minMinutes));
-    //  encoutneredErrors = true;
-    //}
-    //else if(AntalMinuter > appSettings.maxMinutes)
-    //{
-    //  setMinuteError(appSettings.errMoreThanAllowedMax.format(appSettings.maxMinutes));
-    //  encoutneredErrors = true;
-    //}
-    //else
-    //{
-    //  setMinuteError("");
-    //}
-    let minuteVal = "";
-
-    minuteVal = minuteValidation(AntalMinuter);
+    let minuteVal = minuteValidation(AntalMinuter);
     if(minuteVal != "")
     {
       setMinuteError(minuteVal);
       encoutneredErrors = true;
     }
 
-    console.log(Date);
-    if(!Date)
+    let dateVal = dateValidation(Date);
+    if(dateVal != "")
     {
-      setDateError(appSettings.errDateMissing);
+      setDateError(dateVal);
       encoutneredErrors = true;
-    }
-    else
-    {
-      setDateError("");
     }
 
-    console.log(SelectedProject);
-    if(SelectedProject === 0)
+    let projVal = projValidation(SelectedProject);
+    if(projVal != "")
     {
-      setProjError(appSettings.errProjMissing);
+      setProjError(projVal);
       encoutneredErrors = true;
-    }
-    else
-    {
-      setProjError("");
     }
 
-    console.log(Beskrivning.length);
-    if(Beskrivning.length > appSettings.maxStrLength)
+    let descVal = descValidation(Beskrivning);
+    if(descVal != "")
     {
-      setDescError(appSettings.errDescTooLong.format(appSettings.maxStrLength));
+      setDescError(Beskrivning);
       encoutneredErrors = true;
-    }
-    else
-    {
-      setDescError("");
     }
 
     if(!encoutneredErrors)
@@ -101,7 +67,7 @@ export const TimeRegistrationNew = props => {
       appSettings.PostDTO.AntalMinuter = AntalMinuter;
       appSettings.PostDTO.ProjectId = SelectedProject;
       fetch(
-        appSettings.apiUrl,
+        props.getRegUrl,
         {
           method: appSettings.fetchMethod,
           headers: appSettings.fetchHeaders,
@@ -110,9 +76,8 @@ export const TimeRegistrationNew = props => {
       ).then(
         result =>
         {
-          console.log(result);
+          //console.log(result);
           props.changeActivePage(props.startPage);
-          
         }
       )
     }

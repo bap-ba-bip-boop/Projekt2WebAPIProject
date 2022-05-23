@@ -7,21 +7,9 @@ import {ButtonBar} from './Components/ButtonBar';
 import appSettings from './Settings/App.json';
 import'./Style/style.css';
 
-
-
 const appSettingslocation = './Settings/App.json';
 
 const App = () => {
-  //const [appSettings, setAppSettings] = useState([]);
-//
-  //useEffect(()=>{
-  //  getData(appSettingslocation).then( result => {
-  //    setAppSettings(result);
-  //  }
-  //  )
-  //  },
-  //  []
-  //);
 
   const [activePage, setActivePage] = useState(appSettings.startPage);
   const [currentRegId, setRegId] = useState(0);
@@ -74,6 +62,8 @@ const App = () => {
       regPage={appSettings.regPage}
       setCurrentTimeReg={setCurrentTimeReg}
       startPage={appSettings.startPage}
+      tidsRegistreringsAPIGet={appSettings.apiUrl}
+      projectAPIGetAll={appSettings.projApiUrl}
       />
     <Footer/>
   </div>
