@@ -62,5 +62,9 @@ public class ProjectProfile : Profile
                 )
             )
             ;
+        CreateMap<ProjectNewViewModel, Project>();
+        CreateMap<Project, ProjectEditViewModel>()
+            .ReverseMap();
+            
     }
 }

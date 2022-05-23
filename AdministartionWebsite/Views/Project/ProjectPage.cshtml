@@ -1,0 +1,30 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AdministartionWebsite.ViewModels.Project.ProjectPageViewModel;
+
+<div>
+    <h2>@Model.ProjectName</h2>
+</div>
+
+<a asp-area="" asp-controller="Project" asp-action="ProjectNew">new</a>
+<a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId">edit</a>
+<a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId">delete</a>
+
+<div>
+    <p>Customer: @Model.CustomerName</p>
+    <p>Minutes Spent: @Model.TotalMinutesSpent</p>
+</div>
+
+<div>
+@foreach(var reg in Model.TimeRegs!)
+{
+    <div>
+        <p>Date: @reg.Date</p>
+        <p>Time: @reg.MinutesSpent</p>
+        <p>Desc: @reg.Description</p>
+    </div>
+}
+</div>

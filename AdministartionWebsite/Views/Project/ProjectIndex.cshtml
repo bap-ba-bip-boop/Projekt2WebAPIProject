@@ -5,6 +5,8 @@
 }
 @model AdministartionWebsite.ViewModels.Project.ProjectIndexViewModel;
 
+<a asp-area="" asp-controller="Project" asp-action="ProjectNew">new</a>
+
 <div>
 @foreach(var proj in Model.Projects!)
 {
@@ -12,6 +14,8 @@
         <p>Project: @proj.ProjectName</p>
         <p>For: @proj.CustomerName</p>
         <a asp-area="" asp-controller="Project" asp-action="ProjectPage" asp-route-Id="@proj.ProjectId">link</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@proj.ProjectId">edit</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@proj.ProjectId">delete</a>
     </div>
 }
 </div>

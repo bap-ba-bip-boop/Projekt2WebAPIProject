@@ -1,6 +1,7 @@
 ﻿using AdministartionWebsite.ViewModels.Project;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 
@@ -34,5 +35,76 @@ public class ProjectController : Controller
 
         var ppViewModel = _mapper.Map<ProjectPageViewModel>(Project);
         return View(ppViewModel);
+    }
+    [HttpGet]
+    public IActionResult ProjectNew()
+    {
+        var pnViewModel = new ProjectNewViewModel{
+            CustomerList = getCustomerSelectList()
+        };
+        return View(pnViewModel);
+    }
+    [HttpPost]
+    public IActionResult ProjectNew(ProjectNewViewModel pnViewModel)
+    {
+        if(pnViewModel.CustomerId == 0)
+        {
+            ModelState.AddModelError(nameof(pnViewModel.CustomerId), "You Must Select An Item");
+        }
+        if(ModelState.IsValid)
+        {
+            var newProject = _mapper.Map<Project>(pnViewModel);
+            _context.Projects!.Add(newProject);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(ProjectIndex));
+        }
+        pnViewModel.CustomerList = getCustomerSelectList();
+        return View(pnViewModel);
+    }
+    private List<SelectListItem> getCustomerSelectList()
+    {
+        var ListOfItems = _context.Customers!
+            .Select(cust => 
+                new SelectListItem{
+                    Text=cust.CustomerName,
+                    Value=$"{cust.CustomerId}"
+                }
+            ).ToList();
+        ListOfItems.Insert(
+            0,
+            new SelectListItem{Text="...Select a Customer...", Value="0", Selected=true, Disabled=true}
+            );
+        return ListOfItems;
+    }
+    [HttpGet]
+    public IActionResult ProjectEdit(int Id)
+    {
+        var ProjectToEdit = _context.Projects!.First(proj => proj.ProjectId == Id);
+        var peViewModel = _mapper.Map<ProjectEditViewModel>(ProjectToEdit);
+        return View(peViewModel);
+    }
+    [HttpPost]
+    public IActionResult ProjectEdit(ProjectEditViewModel pedViewModel)
+    {
+        if(ModelState.IsValid)
+        {
+            var ProjectToEdit = _context.Projects!.First(proj => proj.ProjectId == pedViewModel.ProjectId);
+            
+            _mapper.Map(pedViewModel, ProjectToEdit);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(ProjectIndex));
+        }
+        return View(pedViewModel);
+    }
+    public IActionResult ProjectDelete(int Id)
+    {
+        var projectToDelete = _context.Projects!.First(proj => proj.ProjectId == Id);
+
+        _context.Projects!.Remove(projectToDelete);
+        _context.SaveChanges();
+
+        return RedirectToAction(nameof(ProjectIndex));
     }
 }
