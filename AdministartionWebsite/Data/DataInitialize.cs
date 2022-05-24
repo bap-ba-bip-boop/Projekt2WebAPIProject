@@ -23,17 +23,17 @@ public class DataInitialize{
     private void SeedUsers()
     {
         _settings.Value.UsersToAdd!.ForEach(newUser =>
-            CreateUserIfNotExists(newUser.Email!, newUser.Password!, newUser.UserName!)
+            CreateUserIfNotExists(newUser.Email!, newUser.Password!)
         ); ;
     }
-    private void CreateUserIfNotExists(string email, string password, string username)
+    private void CreateUserIfNotExists(string email, string password)
     {
         if (_userManager.FindByEmailAsync(email).Result != null) return;
 
         var user = new IdentityUser
         {
             Email = email,
-            UserName = username,
+            UserName = email,
             EmailConfirmed = true
         };
 
