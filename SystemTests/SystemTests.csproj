@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdministartionWebsite\AdministartionWebsite.csproj" />
     <ProjectReference Include="..\Projekt2WebAPIProject\WebAPI.csproj" />
     <ProjectReference Include="..\SharedResources\SharedResources.csproj" />
   </ItemGroup>
