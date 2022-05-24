@@ -1,6 +1,6 @@
 
 @model AdministartionWebsite.ViewModels.Customer.CustomerEditViewModel;
-<section class="customerIndexContainer">
+<section class="customerEditContainer">
     <h1 class="customerIndexTitle">Customer Edit</h1>
 
     <nav class="customerIndexButtonPanel">
@@ -12,7 +12,7 @@
 
         <input type="hidden" asp-for="CustomerId" value=@Model.CustomerId>
 
-        <div>
+        <div class="formGroup">
             <label asp-for="CustomerName" class="formLabel"></label>
             <input asp-for="CustomerName" class="formInput"/>
             <span asp-validation-for="CustomerName" class="formError"></span>

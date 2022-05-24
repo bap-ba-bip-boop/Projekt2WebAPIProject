@@ -1,15 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @model AdministartionWebsite.ViewModels.Project.ProjectIndexViewModel;
 
-<a asp-area="" asp-controller="Project" asp-action="ProjectNew">new</a>
+<section>
+    <h1 class="customerIndexTitle">Home Page</h1>
 
-<div>
-@foreach(var proj in Model.Projects!)
-{
-    <partial name="_piVMListItemPartial" model="@proj"/>
-}
-</div>
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Project" asp-action="ProjectNew">New</a>
+    </nav>
+
+    <div>
+    @foreach(var proj in Model.Projects!)
+    {
+        <partial name="_piVMListItemPartial" model="@proj"/>
+    }
+    </div>
+</section>

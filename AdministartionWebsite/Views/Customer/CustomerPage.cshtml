@@ -1,7 +1,7 @@
 ﻿
 @model AdministartionWebsite.ViewModels.Customer.CustomerPageViewModel;
 
-<section class="customerIndexContainer">
+<section class="customerPageContainer">
     <h1 class="customerIndexTitle">Customer Name: @Model.CustomerName</h1>
 
     <nav class="customerIndexButtonPanel">
@@ -11,8 +11,8 @@
         <a asp-area="" asp-controller="Customer" asp-action="CustomerIndex" class="redirectButton">Back</a>
     </nav>
     
-    <div>
-        <h3>Projects</h3>
+    <div class="customerPageProjectList">
+        <h2 class="customerPageProjectListHeader">Projects</h2>
     @foreach(var proj in Model.CustomerProjects!)
     {
         <partial name="_cppListItemPartial" model="@proj"/>

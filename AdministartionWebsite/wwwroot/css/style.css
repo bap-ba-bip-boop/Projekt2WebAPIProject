@@ -239,7 +239,6 @@
     border-radius: 15px;
     border: none;
     color: white;
-    display: inline;
     font-size: 1em;
     font-weight: bold;
     line-height: 1.6;
@@ -253,4 +252,46 @@
 .formSubmit:active{
     transition: 0.2s;
     filter: brightness(0.8);
+}
+
+/*customerEditContainer*/
+.customerEditContainer
+{
+    grid-template-areas:
+        "title"
+        "buttons"
+        "form";
+    grid-template-rows: 40px 40px 1fr;
+    width: 100%;
+}
+
+/*customerPageContainer*/
+.customerPageContainer
+{
+    grid-template-areas:
+        "title"
+        "buttons"
+        "projectList";
+    grid-template-rows: 40px 40px 1fr;
+    width: 100%;
+}
+
+.customerPageProjectList
+{
+    grid-area: projectList;
+}
+.customerPageProjectListHeader
+{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+/*CustomerPageProjectListItem*/
+.CustomerPageProjectListItem
+{
+    border: solid 1px black;
+    border-radius: 5px;
+    grid-area: timeReg;
+    text-align: center;
+    margin: 0.5vh 0.5vw;
 }

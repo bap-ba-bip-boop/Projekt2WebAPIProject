@@ -1,23 +1,26 @@
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+
 @model AdministartionWebsite.ViewModels.Project.ProjectNewViewModel;
+<section>
+    <h1 class="customerIndexTitle">Project New</h1>
 
-<form method="post">
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex">Back</a>
+    </nav>
 
-    <div>
-        <label asp-for="ProjectName"></label>
-        <input asp-for="ProjectName"/>
-        <span asp-validation-for="ProjectName"></span>
-    </div>
+    <form method="post">
 
-    <div>
-        <label asp-for="CustomerId"></label>
-        <select asp-for="CustomerId" asp-items="@Model.CustomerList"></select>
-        <span asp-validation-for="CustomerId"></span>
-    </div>
+        <div>
+            <label asp-for="ProjectName"></label>
+            <input asp-for="ProjectName"/>
+            <span asp-validation-for="ProjectName"></span>
+        </div>
 
-    <input type="submit" value="Create">
-</form>
+        <div>
+            <label asp-for="CustomerId"></label>
+            <select asp-for="CustomerId" asp-items="@Model.CustomerList"></select>
+            <span asp-validation-for="CustomerId"></span>
+        </div>
+
+        <input type="submit" value="Create">
+    </form>
+</section>

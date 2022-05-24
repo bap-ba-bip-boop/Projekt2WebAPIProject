@@ -1,26 +1,26 @@
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+
 @model AdministartionWebsite.ViewModels.Project.ProjectPageViewModel;
 
-<div>
+<section>
     <h2>@Model.ProjectName</h2>
-</div>
 
-<a asp-area="" asp-controller="Project" asp-action="ProjectNew">new</a>
-<a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId">edit</a>
-<a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId">delete</a>
+    <nav>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectNew">New</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId">Edit</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId">Delete</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex">Back</a>
+    </nav>
+    
+    <div>
+        <p>Customer: @Model.CustomerName</p>
+        <p>Minutes Spent: @Model.TotalMinutesSpent</p>
+    @foreach(var reg in Model.TimeRegs!)
+    {
+        <partial name="_ppVMListItemPartial" model="@reg"/>
+    }
+    </div>
 
-<div>
-    <p>Customer: @Model.CustomerName</p>
-    <p>Minutes Spent: @Model.TotalMinutesSpent</p>
-</div>
+</section>
 
-<div>
-@foreach(var reg in Model.TimeRegs!)
-{
-    <partial name="_ppVMListItemPartial" model="@reg"/>
-}
-</div>
+
+
