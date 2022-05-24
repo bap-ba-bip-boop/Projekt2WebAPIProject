@@ -1,11 +1,13 @@
 ﻿using AdministartionWebsite.ViewModels.Customer;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 
 namespace AdministartionWebsite.Controllers;
 
+[Authorize]
 public class CustomerController : Controller
 {
     private readonly ApplicationDbContext _context;

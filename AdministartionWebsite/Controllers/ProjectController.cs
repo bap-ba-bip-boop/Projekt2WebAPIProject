@@ -1,5 +1,6 @@
 ﻿using AdministartionWebsite.ViewModels.Project;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using SharedResources.Data;
 
 namespace AdministartionWebsite.Controllers;
 
+[Authorize]
 public class ProjectController : Controller
 {
     private readonly ApplicationDbContext _context;

@@ -17,9 +17,12 @@
 /*Header*/
 .siteHeader
 {
+
     display: flex;
+    justify-content: space-between;
     grid-area: header;
     flex-direction: row;
+    margin: 2vh 1vw 1vh;
     padding: 0vh 0vw 0vh 2vw;
 }
 .headerLink
@@ -295,4 +298,37 @@
     grid-area: timeReg;
     text-align: center;
     margin: 0.5vh 0.5vw;
+}
+
+/*logoutButton*/
+.logoutButton
+{
+    background-color: darkviolet;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+    margin: 0vh 0.1vw;
+    padding: 0.25vh 0.5vw;
+    text-align: right;
+    text-decoration: none;
+}
+.logoutButton:hover
+{
+    transition: 0.2s;
+    filter: brightness(1.2);
+}
+.logoutButton:active
+{
+    transition: 0.2s;
+    filter: brightness(0.8);
+}
+
+/*logout container*/
+.loginContainer
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1vh 0vw;
 }
