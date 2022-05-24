@@ -1,14 +1,14 @@
 ﻿
 @model AdministartionWebsite.ViewModels.Project.ProjectIndexViewModel;
 
-<section>
+<section class="customerIndexContainer">
     <h1 class="customerIndexTitle">Home Page</h1>
 
     <nav class="customerIndexButtonPanel">
-        <a asp-area="" asp-controller="Project" asp-action="ProjectNew">New</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectNew" class="redirectButton">New</a>
     </nav>
 
-    <div>
+    <div class="customerIndexContent">
     @foreach(var proj in Model.Projects!)
     {
         <partial name="_piVMListItemPartial" model="@proj"/>

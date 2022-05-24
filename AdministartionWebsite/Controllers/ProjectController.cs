@@ -30,6 +30,7 @@ public class ProjectController : Controller
     public IActionResult ProjectPage(int Id)
     {
         var Project = _context.Projects!
+            .Include(proj => proj.Customer)
             .Include(proj => proj.TimeRegs)
             .First(proj => proj.ProjectId == Id);
 

@@ -1,24 +1,24 @@
 
 @model AdministartionWebsite.ViewModels.Project.ProjectEditViewModel;
 
-<section>
+<section class="customerEditContainer">
     <h1 class="customerIndexTitle">Project Edit</h1>
 
     <nav class="customerIndexButtonPanel">
-        <a asp-area="" asp-controller="Project" asp-action="ProjectNew">New</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex">Back</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectNew" class="redirectButton">New</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex" class="redirectButton">Back</a>
     </nav>
 
-    <form method="post">
+    <form class="customerForm" method="post">
         <input type="hidden" asp-for="ProjectId" value=@Model.ProjectId>
 
-        <div>
-            <label asp-for="ProjectName"></label>
-            <input asp-for="ProjectName"/>
-            <span asp-validation-for="ProjectName"></span>
+        <div class="formGroup">
+            <label asp-for="ProjectName" class="formLabel"></label>
+            <input asp-for="ProjectName" class="formInput"/>
+            <span asp-validation-for="ProjectName" class="formError"></span>
         </div>
 
-        <input type="submit" value="Edit">
+        <input class="formSubmit" type="submit" value="Edit">
     </form>
 </section>
 

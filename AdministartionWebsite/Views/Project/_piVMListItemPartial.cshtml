@@ -1,10 +1,10 @@
 
 @model AdministartionWebsite.ViewModels.Project.ProjectIndexVMListItem;
 
-<div>
+<div class="customerIndexListItem">
     <p>Project: @Model.ProjectName</p>
     <p>For: @Model.CustomerName</p>
-    <a asp-area="" asp-controller="Project" asp-action="ProjectPage" asp-route-Id="@Model.ProjectId">link</a>
-    <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId">edit</a>
-    <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId">delete</a>
+    <a asp-area="" asp-controller="Project" asp-action="ProjectPage" asp-route-Id="@Model.ProjectId" class="smallRedirectButton">link</a>
+    <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId" class="smallRedirectButton">edit</a>
+    <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId" class="smallRedirectButton">delete</a>
 </div>

@@ -1,19 +1,19 @@
 
 @model AdministartionWebsite.ViewModels.Project.ProjectPageViewModel;
 
-<section>
-    <h2>@Model.ProjectName</h2>
+<section class="customerPageContainer">
+    <h2 class="customerIndexTitle">@Model.ProjectName</h2>
 
-    <nav>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectNew">New</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId">Edit</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId">Delete</a>
-        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex">Back</a>
+    <nav class="customerIndexButtonPanel">
+        <a asp-area="" asp-controller="Project" asp-action="ProjectNew" class="redirectButton">New</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectEdit" asp-route-Id="@Model.ProjectId" class="redirectButton">Edit</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectDelete" asp-route-Id="@Model.ProjectId" class="redirectButton">Delete</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex" class="redirectButton">Back</a>
     </nav>
     
-    <div>
-        <p>Customer: @Model.CustomerName</p>
-        <p>Minutes Spent: @Model.TotalMinutesSpent</p>
+    <div class="customerPageProjectList">
+        <p class="customerPageProjectListHeader">Customer: @Model.CustomerName</p>
+        <p class="customerPageProjectListHeader">Total: @Model.TotalMinutesSpent Minutes</p>
     @foreach(var reg in Model.TimeRegs!)
     {
         <partial name="_ppVMListItemPartial" model="@reg"/>

@@ -1,26 +1,26 @@
 
 @model AdministartionWebsite.ViewModels.Project.ProjectNewViewModel;
-<section>
+<section class="customerNewContainer">
     <h1 class="customerIndexTitle">Project New</h1>
 
     <nav class="customerIndexButtonPanel">
-        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex">Back</a>
+        <a asp-area="" asp-controller="Project" asp-action="ProjectIndex" class="redirectButton">Back</a>
     </nav>
 
-    <form method="post">
+    <form class="customerForm" method="post">
 
-        <div>
-            <label asp-for="ProjectName"></label>
-            <input asp-for="ProjectName"/>
-            <span asp-validation-for="ProjectName"></span>
+        <div class="formGroup">
+            <label asp-for="ProjectName" class="formLabel"></label>
+            <input asp-for="ProjectName" class="formInput"/>
+            <span asp-validation-for="ProjectName" class="formError"></span>
         </div>
 
-        <div>
-            <label asp-for="CustomerId"></label>
-            <select asp-for="CustomerId" asp-items="@Model.CustomerList"></select>
-            <span asp-validation-for="CustomerId"></span>
+        <div class="formGroup">
+            <label asp-for="CustomerId" class="formLabel"></label>
+            <select asp-for="CustomerId" asp-items="@Model.CustomerList" class="formInput"></select>
+            <span asp-validation-for="CustomerId" class="formError"></span>
         </div>
 
-        <input type="submit" value="Create">
+        <input class="formSubmit" type="submit" value="Create">
     </form>
 </section>
