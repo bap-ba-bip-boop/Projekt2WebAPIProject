@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SharedResources.Data;
 using SharedResources.Services;
-using SharedResources.Settings;
+using WebAPI.Data;
 using WebAPI.Infrastructure.Profiles;
 using WebAPI.Services;
+using WebAPI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

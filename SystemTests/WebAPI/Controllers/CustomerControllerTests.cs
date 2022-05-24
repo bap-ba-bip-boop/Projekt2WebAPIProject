@@ -88,7 +88,7 @@ public class CustomerControllerTest
     }
     //HTTP POST
     [TestMethod]
-    public void When_Call_Post_Single_Method_With_New_Ad()
+    public void When_Call_Post_Single_Method_With_New_Cusomter()
     {
         var returnCodeCompare = StatusCodes.Status201Created;
         var name = Guid.NewGuid().ToString();
@@ -98,7 +98,7 @@ public class CustomerControllerTest
                 () => _sut.AddNewCustomer(
                     new CustomerPostDTO
                     {
-                        Name = name
+                        CustomerName = name
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -113,7 +113,7 @@ public class CustomerControllerTest
         _sut.AddNewCustomer(
             new CustomerPostDTO
             {
-                Name = NameToAdd
+                CustomerName = NameToAdd
             }
         );
 
@@ -149,7 +149,7 @@ public class CustomerControllerTest
                     existingID,
                     new CustomerPutDTO
                     {
-                        Name = existingItem.CustomerName
+                        CustomerName = existingItem.CustomerName
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
@@ -166,7 +166,7 @@ public class CustomerControllerTest
             CustomerIDToReplace,
             new CustomerPutDTO
             {
-                Name = NameToEdit
+                CustomerName = NameToEdit
             }
         );
 

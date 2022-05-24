@@ -20,7 +20,7 @@ public class CustomerProfile : Profile
                 src => src.CustomerProjects,
                 opt => opt.MapFrom(
                     src => src.Projects!
-                        .Select(proj => _mapper.Map<CustomerPageProjectListItem>(proj))
+                        .Select(_mapper.Map<CustomerPageProjectListItem>)
                         .ToList()
                 )
             );

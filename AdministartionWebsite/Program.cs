@@ -2,6 +2,8 @@ using SharedResources.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AdministartionWebsite.Infrastructure.Profiles;
+using AdministartionWebsite.Settings;
+using AdministartionWebsite.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,22 @@ _services
     )
     .AddDatabaseDeveloperPageExceptionFilter();
 
-_services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
+_services.AddDefaultIdentity<IdentityUser>(options => 
+        options.SignIn.RequireConfirmedAccount = true
+    )
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+_services.
+    Configure<DataInitializeSettings>(
+        _config.GetSection(nameof(DataInitializeSettings))
+    );
+
 _services.AddControllersWithViews();
 
+_services
+    .AddTransient<DataInitialize>();
+
+//needs to be in the order of TimeReg => Project => Customer because of dependancies
 _services
     .AddAutoMapper(typeof(TimeRegProfile))
     .AddAutoMapper(typeof(ProjectProfile))
@@ -27,6 +40,11 @@ _services
     ;
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetService<DataInitialize>()!.SeedData();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

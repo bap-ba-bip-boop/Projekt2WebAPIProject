@@ -5,5 +5,5 @@ namespace WebAPI.DTO.Customer;
 public class CustomerPostDTO
 {
     [MaxLength(30)]
-    public string? Name { get; set; }
+    public string? CustomerName { get; set; }
 }

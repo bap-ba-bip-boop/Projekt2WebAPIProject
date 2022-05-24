@@ -15,6 +15,7 @@ public class ProjectProfile : Profile
         }
 
         ).CreateMapper();
+
         CreateMap<Project, CustomerPageProjectListItem>()
             .ForMember(
                 src => src.regAmount,
@@ -25,9 +26,10 @@ public class ProjectProfile : Profile
             .ForMember(
                 src => src.latestRegDate,
                 opt => opt.MapFrom(
-                    src => src.TimeRegs!.Last().Datum
+                    src => (src.TimeRegs!.Count() > 0) ? src.TimeRegs!.Last().Datum.ToString() : "Never"
                 )
             );
+
         CreateMap<Project, ProjectIndexVMListItem>()
             .ForMember(
                 src => src.CustomerName,
@@ -58,6 +60,7 @@ public class ProjectProfile : Profile
                 opt => opt.MapFrom(
                     src => src.TimeRegs!
                     .Select(_mapper.Map<ProjectPageViewModelListItem>)
+                    .OrderByDescending( src => src.Date)
                     .ToList()
                 )
             )

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SharedResources.Data;
 using SharedResources.Services;
-using SharedResources.Settings;
+using WebAPI.Settings;
 
-namespace SharedResources.Data;
+namespace WebAPI.Data;
 
 public class DataInitialize
 {
@@ -24,17 +25,9 @@ public class DataInitialize
     public void SeedData()
     {
         _context.Database.Migrate();
-        SeedUsers();
         SeedCustomers();
         SeedProjects();
         SeedTidsRegistrering();
-    }
-
-    private void SeedUsers()
-    {
-        _settings.Value.UsersToAdd!.ForEach(newUser =>
-            CreateUserIfNotExists(newUser.Email!, newUser.Password!, newUser.UserName!)
-        ); ;
     }
 
     private void SeedTidsRegistrering()
@@ -85,18 +78,5 @@ public class DataInitialize
                 }
             )
         );
-    }
-    public void CreateUserIfNotExists(string email, string password, string username)
-    {
-        if (_userManager.FindByEmailAsync(email).Result != null) return;
-
-        var user = new IdentityUser
-        {
-            Email = email,
-            UserName = username,
-            EmailConfirmed = true
-        };
-
-        _userManager.CreateAsync(user, password).Wait();
     }
 }

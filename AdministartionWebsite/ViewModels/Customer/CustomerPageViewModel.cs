@@ -12,5 +12,5 @@ public class CustomerPageProjectListItem
     public int ProjectId { get; set; }
     public string? ProjectName { get; set; }
     public int regAmount { get; set; }
-    public DateTime latestRegDate { get; set; }
+    public string? latestRegDate { get; set; }
 }

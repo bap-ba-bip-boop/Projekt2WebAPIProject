@@ -2,5 +2,5 @@
 
 public class CustomerGetOneDTO
 {
-    public string? Name { get; set; }
+    public string? CustomerName { get; set; }
 }
