@@ -22,20 +22,11 @@ public class ProjectControllerTest
     private readonly ProjectController _sut;
     private readonly ITestAPIService _tester;
 
-    public string TestCustomerName { get; set; }
-    public string TestProjectName { get; set; }
-
     public ProjectControllerTest()
     {
         _tester = new TestAPIService();
         _context = TestDatabaseService.CreateTestContext(nameof(ProjectControllerTest));
         _creator = new CreateUniqeService();
-
-        TestCustomerName = Guid.NewGuid().ToString();
-        TestProjectName = Guid.NewGuid().ToString();
-
-        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
-        TestDatabaseService.AddProject(TestProjectName, _context.Customers!.Last().CustomerId, _creator, _context);
 
         _sut = createAPI();
     }
@@ -65,8 +56,15 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Call_Get_Single_Method_With_Valid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+
         var returnCodeCompare = StatusCodes.Status200OK;
-        var existingItem = _context.Projects!.First();
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -93,6 +91,7 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Call_Post_Single_Method_With_New_Ad()
     {
+        
         var returnCodeCompare = StatusCodes.Status201Created;
         var name = Guid.NewGuid().ToString();
         var customerId = _context.Customers!.Last().CustomerId;
@@ -147,9 +146,16 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Call_Put_With_Valalid_Id()
     {
-        var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingItem = _context.Projects!.First();
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
         var existingID = existingItem.ProjectId;
+
+        var returnCodeCompare = StatusCodes.Status204NoContent;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -168,17 +174,25 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Correct_Values_Are_Put_Should_Succeed()
     {
-        string NameToEdit = Guid.NewGuid().ToString();
-        var projOwnerId = _context.Customers!.Last().CustomerId;
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
 
-        var ProjectIdToReplace = _context.Projects!.First().ProjectId;
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var existingID = existingItem.ProjectId;
+
+        string NameToEdit = Guid.NewGuid().ToString();
+
+        var ProjectIdToReplace = existingID;
 
         _sut.ReplaceProjectByID(
             ProjectIdToReplace,
             new ProjectPutDTO
             {
                 ProjectName = NameToEdit,
-                CustomerId = projOwnerId
+                CustomerId = existingID
             }
         );
 
@@ -186,7 +200,7 @@ public class ProjectControllerTest
 
         Assert.IsNotNull(EditedProject);
         Assert.AreEqual(NameToEdit, EditedProject.ProjectName);
-        Assert.AreEqual(projOwnerId, EditedProject.CustomerId);
+        Assert.AreEqual(existingID, EditedProject.CustomerId);
     }
     //HTTP DELETE
     [TestMethod]
@@ -207,8 +221,17 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Call_Delete_With_Valalid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var existingID = existingItem.ProjectId;
+
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Projects!.First().ProjectId;
+        //var existingID = _context.Projects!.First().ProjectId;
 
         Assert.AreEqual(
             _tester.APITestResponseCode(
@@ -222,13 +245,21 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Correct_ID_Is_Given_Should_Not_Exist()
     {
-        var ProjectIDToRemove = _context.Projects!.First().ProjectId;
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var existingID = existingItem.ProjectId;
+        //var ProjectIDToRemove = _context.Projects!.First().ProjectId;
 
         _sut.DeleteProjectByID(
-            ProjectIDToRemove
+            existingID
         );
 
-        var RemovecItem = _context.Projects!.FirstOrDefault(customer => customer.ProjectId == ProjectIDToRemove);
+        var RemovecItem = _context.Projects!.FirstOrDefault(customer => customer.ProjectId == existingID);
 
         Assert.AreEqual(default(Project), RemovecItem);
     }
@@ -252,11 +283,20 @@ public class ProjectControllerTest
     [TestMethod]
     public void When_Call_Patch_With_Valalid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingItem = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var existingID = existingItem.ProjectId;
+
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Projects!.First().ProjectId;
+        //var existingID = _context.Projects!.First().ProjectId;
 
         var body = new JsonPatchDocument<Project>();
-        body.Replace(project => project.ProjectName, "This is the new Value");
+        body.Replace(project => project.ProjectName, Guid.NewGuid().ToString());
 
         Assert.IsTrue(
             _tester.APITestResponseCode(

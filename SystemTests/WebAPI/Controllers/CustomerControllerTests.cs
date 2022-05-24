@@ -22,17 +22,11 @@ public class CustomerControllerTest
     private readonly CusotmerController _sut;
     private readonly ITestAPIService _tester;
 
-    public string TestName { get; set; }
-
     public CustomerControllerTest()
     {
         _tester = new TestAPIService();
         _context = TestDatabaseService.CreateTestContext(nameof(CustomerControllerTest));
         _creator = new CreateUniqeService();
-
-        TestName = Guid.NewGuid().ToString();
-
-        TestDatabaseService.AddCustomer(TestName, _creator, _context);
 
         _sut = createAPI();
     }
@@ -62,8 +56,10 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_Get_Single_Method_With_Valid_Id()
     {
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First( cust => cust.CustomerName == TestName);
         var returnCodeCompare = StatusCodes.Status200OK;
-        var existingItem = _context.Customers!.First();
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -76,8 +72,8 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_Get_Single_Method_With_Invalid_Id()
     {
-        var returnCodeCompare = StatusCodes.Status404NotFound;
         var nonExistingID = -1;
+        var returnCodeCompare = StatusCodes.Status404NotFound;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -139,9 +135,11 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_Put_With_Valalid_Id()
     {
-        var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingItem = _context.Customers!.First();
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First(cust => cust.CustomerName == TestName);
         var existingID = existingItem.CustomerId;
+        var returnCodeCompare = StatusCodes.Status204NoContent;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -159,21 +157,23 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Correct_Values_Are_Put_Should_Succeed()
     {
-        string NameToEdit = Guid.NewGuid().ToString();
-        var CustomerIDToReplace = _context.Customers!.First().CustomerId;
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First(cust => cust.CustomerName == TestName);
+        var CustomerIDToReplace = existingItem.CustomerId;
 
         _sut.ReplaceCustomerByID(
             CustomerIDToReplace,
             new CustomerPutDTO
             {
-                CustomerName = NameToEdit
+                CustomerName = TestName
             }
         );
 
         var EditedCustomer = _context.Customers!.First(customer => customer.CustomerId == CustomerIDToReplace);
 
         Assert.IsNotNull(EditedCustomer);
-        Assert.AreEqual(NameToEdit, EditedCustomer.CustomerName);
+        Assert.AreEqual(TestName, EditedCustomer.CustomerName);
     }
     //HTTP DELETE
     [TestMethod]
@@ -194,8 +194,12 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_Delete_With_Valalid_Id()
     {
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First(cust => cust.CustomerName == TestName);
+
+        var existingID = existingItem.CustomerId;
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Customers!.First().CustomerId;
 
         Assert.AreEqual(
             _tester.APITestResponseCode(
@@ -209,7 +213,11 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Correct_ID_Is_Given_Should_Not_Exist()
     {
-        var CustomerIDToRemove = _context.Customers!.First().CustomerId;
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First(cust => cust.CustomerName == TestName);
+
+        var CustomerIDToRemove = existingItem.CustomerId;
 
         _sut.DeleteCustomerByID(
             CustomerIDToRemove
@@ -239,11 +247,14 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_Patch_With_Valalid_Id()
     {
+        var TestName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestName, _creator, _context);
+        var existingItem = _context.Customers!.First(cust => cust.CustomerName == TestName);
+        var existingID = existingItem.CustomerId;
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.Customers!.First().CustomerId;
 
         var body = new JsonPatchDocument<Customer>();
-        body.Replace(customer => customer.CustomerName, "This is the new Value");
+        body.Replace(customer => customer.CustomerName, Guid.NewGuid().ToString());
 
         Assert.IsTrue(
             _tester.APITestResponseCode(

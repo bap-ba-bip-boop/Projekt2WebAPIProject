@@ -22,28 +22,11 @@ public class TidsRegistreringControllerTest
     private readonly TidsRegistreringController _sut;
     private readonly ITestAPIService _tester;
 
-    public string TestCustomerName { get; set; }
-    public string TestProjectName { get; set; }
-
     public TidsRegistreringControllerTest()
     {
         _tester = new TestAPIService();
         _context = TestDatabaseService.CreateTestContext(nameof(TidsRegistreringControllerTest));
         _creator = new CreateUniqeService();
-
-        TestCustomerName = Guid.NewGuid().ToString();
-        TestProjectName = Guid.NewGuid().ToString();
-
-        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
-        TestDatabaseService.AddProject(TestProjectName, _context.Customers!.Last().CustomerId, _creator, _context);
-        TestDatabaseService.AddTidsRegistrering(
-            Guid.NewGuid().ToString(),
-            new Random().Next(1, 1440),
-            _context.Projects!.First().ProjectId,
-            DateTime.Now,
-            _creator,
-            _context
-        );
 
         _sut = createAPI();
     }
@@ -73,8 +56,27 @@ public class TidsRegistreringControllerTest
     [TestMethod]
     public void When_Call_Get_Single_Method_With_Valid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingProject = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var projectId = existingProject.ProjectId;
+
+        var desc = Guid.NewGuid().ToString();
+        TestDatabaseService.AddTidsRegistrering(
+            desc,
+            new Random().Next(1, 1440),
+            _context.Projects!.First().ProjectId,
+            DateTime.Now,
+            _creator,
+            _context
+        );
+        var existingItem = _context.TidsRegistrerings!.First( reg => reg.Beskrivning == desc);
+
         var returnCodeCompare = StatusCodes.Status200OK;
-        var existingItem = _context.TidsRegistrerings!.First();
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
@@ -234,13 +236,33 @@ public class TidsRegistreringControllerTest
     [TestMethod]
     public void When_Call_Delete_With_Valalid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingProject = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var projectId = existingProject.ProjectId;
+
+        var desc = Guid.NewGuid().ToString();
+        TestDatabaseService.AddTidsRegistrering(
+            desc,
+            new Random().Next(1, 1440),
+            _context.Projects!.First().ProjectId,
+            DateTime.Now,
+            _creator,
+            _context
+        );
+        var existingItem = _context.TidsRegistrerings!.First( reg => reg.Beskrivning == desc);
+
+        var RegIDToRemove = existingItem.TidsRegistreringId;
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.TidsRegistrerings!.First().TidsRegistreringId;
 
         Assert.AreEqual(
             _tester.APITestResponseCode(
                 () => _sut.DeleteRegByID(
-                    existingID
+                    RegIDToRemove
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)
             ), true
@@ -249,7 +271,27 @@ public class TidsRegistreringControllerTest
     [TestMethod]
     public void When_Correct_ID_Is_Given_Should_Not_Exist()
     {
-        var RegIDToRemove = _context.TidsRegistrerings!.First().TidsRegistreringId;
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingProject = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var projectId = existingProject.ProjectId;
+
+        var desc = Guid.NewGuid().ToString();
+        TestDatabaseService.AddTidsRegistrering(
+            desc,
+            new Random().Next(1, 1440),
+            _context.Projects!.First().ProjectId,
+            DateTime.Now,
+            _creator,
+            _context
+        );
+        var existingItem = _context.TidsRegistrerings!.First( reg => reg.Beskrivning == desc);
+
+        var RegIDToRemove = existingItem.TidsRegistreringId;
 
         _sut.DeleteRegByID(
             RegIDToRemove
@@ -279,11 +321,30 @@ public class TidsRegistreringControllerTest
     [TestMethod]
     public void When_Call_Patch_With_Valalid_Id()
     {
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
+
+        var TestProjectName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddProject(TestProjectName, CustomerId, _creator, _context);
+        var existingProject = _context.Projects!.First(proj => proj.ProjectName == TestProjectName);
+        var projectId = existingProject.ProjectId;
+
+        var desc = Guid.NewGuid().ToString();
+        TestDatabaseService.AddTidsRegistrering(
+            desc,
+            new Random().Next(1, 1440),
+            _context.Projects!.First().ProjectId,
+            DateTime.Now,
+            _creator,
+            _context
+        );
+        var existingItem = _context.TidsRegistrerings!.First( reg => reg.Beskrivning == desc);
+        var existingID = existingItem.TidsRegistreringId;
         var returnCodeCompare = StatusCodes.Status204NoContent;
-        var existingID = _context.TidsRegistrerings!.First().TidsRegistreringId;
 
         var body = new JsonPatchDocument<TidsRegistrering>();
-        body.Replace(reg => reg.Beskrivning, "This is the new Value");
+        body.Replace(reg => reg.Beskrivning, Guid.NewGuid().ToString());
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
