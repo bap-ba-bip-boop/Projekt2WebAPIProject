@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AdministartionWebsite.Infrastructure.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AdministartionWebsite.ViewModels.Project;
@@ -12,6 +13,7 @@ public class ProjectNewViewModel
 
     [Required]
     [Display(Name = "Project Owner")]
+    [ValidId]
     public int CustomerId { get; set; }
     public List<SelectListItem>? CustomerList { get; set; }
 }

@@ -1,6 +1,6 @@
 namespace AdministartionWebsite.ViewModels.Home;
 
-public class HomeViewModel
+public class HomeIndexViewModel
 {
     public int CustomerAmount { get; set; }
     public string? NewestCustomerName { get; set; }

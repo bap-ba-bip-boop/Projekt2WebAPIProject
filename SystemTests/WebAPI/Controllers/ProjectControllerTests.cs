@@ -89,20 +89,23 @@ public class ProjectControllerTest
     }
     //HTTP POST
     [TestMethod]
-    public void When_Call_Post_Single_Method_With_New_Ad()
-    {
-        
+    public void When_Call_Post_Single_Method_With_New_Customer()
+    {   
         var returnCodeCompare = StatusCodes.Status201Created;
-        var name = Guid.NewGuid().ToString();
-        var customerId = _context.Customers!.Last().CustomerId;
+        var ProjectName = Guid.NewGuid().ToString();
+        //var customerId = _context.Customers!.Last().CustomerId;
+
+        var TestCustomerName = Guid.NewGuid().ToString();
+        TestDatabaseService.AddCustomer(TestCustomerName, _creator, _context);
+        var CustomerId = _context.Customers!.First(cust => cust.CustomerName == TestCustomerName).CustomerId;
 
         Assert.IsTrue(
             _tester.APITestResponseCode(
                 () => _sut.AddNewProject(
                     new ProjectPostDTO
                     {
-                        ProjectName = name,
-                        CustomerId = customerId
+                        ProjectName = ProjectName,
+                        CustomerId = CustomerId
                     }
                 ),
                 response => _tester.DefaultAPIResponseCodeCheck(response, returnCodeCompare)

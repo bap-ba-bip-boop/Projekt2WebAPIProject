@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var hViewModel = new HomeViewModel{
+        var hViewModel = new HomeIndexViewModel{
             CustomerAmount = _context.Customers!.Count(),
             NewestCustomerName = _context.Customers!.ToList().Last().CustomerName,
             ProjectAmount = _context.Projects!.Count(),

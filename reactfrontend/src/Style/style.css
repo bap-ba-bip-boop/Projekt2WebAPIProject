@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
+:root{
+    --primary-Color: orangered;
+    --secondary-Color: orange;
+    --alert-Color: purple;
+}
+
 .siteContainer
 {
     align-items: center;
-    color: orangered;
+    color: var(--primary-Color);
     display: grid;
     font-family:'Ubuntu', sans-serif;
     grid-template-areas:
@@ -24,14 +30,14 @@
 }
 .headerLink
 {
-    color: orangered;
+    color: var(--primary-Color);
     font-size: 2em;
     font-weight: 700;
     text-decoration: none;
 }
 .headerSpan
 {
-    background-color: orange;
+    background-color: var(--secondary-Color);
     color: white;
     padding: 0vh 0.5vw 0vh 0.5vw;
     border-radius: 5px;
@@ -57,13 +63,13 @@
 {
     border: solid 1px black;
     border-radius: 5px;
-    color: orangered;
+    color: var(--primary-Color);
     display: block;
     margin: 0.5vh 0vw 0.5vh 0vw;
 }
 .timeRegistrationPanel:hover
 {
-    box-shadow: 1px 1px 3px orange;
+    box-shadow: 1px 1px 3px var(--secondary-Color);;
 }
 .timeregTitle
 {
@@ -91,7 +97,7 @@
 }
 .redirectButton
 {
-    background-color: orange;
+    background-color: var(--secondary-Color);;
     border-radius: 15px;
     color: white;
     font-weight: bold;
@@ -120,7 +126,7 @@
 
 .formInput
 {
-    color: orangered;
+    color: var(--primary-Color);
     font-size: 2em;
 
 }
@@ -132,14 +138,14 @@
 
 .formTextArea
 {
-    color: orangered;
+    color: var(--primary-Color);
     font-size: 2em;
     resize: none;
 }
 
 .formSubmit
 {
-    background-color: orange;
+    background-color: var(--secondary-Color);;
     border-radius: 15px;
     border: none;
     color: white;
@@ -160,7 +166,7 @@
 }
 .formError
 {
-    color: purple;
+    color: var(--alert-Color);
 }
 /*RegPage*/
 .regPagePanel
@@ -173,7 +179,7 @@
 {
     font-size: 2em;
     text-align: center;
-    background-color: orangered;
+    background-color: var(--primary-Color);
     color: white;
     border-radius: 5px;
 }
@@ -194,4 +200,11 @@
 .regPanelDescription
 {
     font-size: 1em;
+}
+
+
+@media screen and (max-width: 992px){
+    :root{
+        --primary-Color: green;
+    }
 }

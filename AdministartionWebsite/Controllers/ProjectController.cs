@@ -50,10 +50,6 @@ public class ProjectController : Controller
     [HttpPost]
     public IActionResult ProjectNew(ProjectNewViewModel pnViewModel)
     {
-        if(pnViewModel.CustomerId == 0)
-        {
-            ModelState.AddModelError(nameof(pnViewModel.CustomerId), "You Must Select An Item");
-        }
         if(ModelState.IsValid)
         {
             var newProject = _mapper.Map<Project>(pnViewModel);
