@@ -75,6 +75,7 @@
 {
     font-size: 2em;
     text-align: center;
+
 }
 .timeregPropertyLabel
 {
@@ -203,8 +204,63 @@
 }
 
 
-@media screen and (max-width: 992px){
-    :root{
-        --primary-Color: green;
+@media screen and (max-width: 700px){
+    .siteContainer
+    {
+        align-items: center;
+        color: var(--primary-Color);
+        display: grid;
+        font-family:'Ubuntu', sans-serif;
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "footer";
+        grid-template-rows: 50px 2fr 5fr 50px;
+        height: 100vh;
+        width: 98vw;
+    }
+    .timeregTitle
+    {
+        display: block;
+        max-width: 98%;
+        height: 1.5em;
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .buttonBar
+    {
+        grid-area: nav;
+        display: flex;
+        flex-direction: column;
+        padding: 0vh 2vw;
+    }
+    .redirectButton
+    {
+        background-color: var(--secondary-Color);
+        border-radius: 15px;
+        color: white;
+        font-weight: bold;
+        margin: 1vh 0.5vw 0vh 0.5vw;
+        padding: 1vh 2vw;
+        text-align: center;
+        text-decoration: none;
+    }
+    .formSubmit
+    {
+        background-color: var(--secondary-Color);;
+        border-radius: 15px;
+        border: none;
+        color: white;
+        display: inline;
+        font-size: 1em;
+        font-weight: bold;
+        line-height: 1.6;
+        margin: 1vh 0.5vw 0vh 0.5vw;
+        padding: 1vh 2vw;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
     }
 }
