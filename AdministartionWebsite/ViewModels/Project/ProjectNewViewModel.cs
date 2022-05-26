@@ -6,14 +6,14 @@ namespace AdministartionWebsite.ViewModels.Project;
 
 public class ProjectNewViewModel
 {
-    [MaxLength(30)]
-    [Required]
+    [Required(ErrorMessage = "The Project must have a name")]
+    [MaxLength(30, ErrorMessage = "Can't be longer than 30 characters")]
     [Display(Name = "Project Name")]
     public string? ProjectName { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Must select a Project owner")]
+    [ValidId(ErrorMessage = "Must select a Project owner")]
     [Display(Name = "Project Owner")]
-    [ValidId]
     public int CustomerId { get; set; }
     public List<SelectListItem>? CustomerList { get; set; }
 }

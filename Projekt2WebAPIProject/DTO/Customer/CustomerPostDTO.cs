@@ -4,6 +4,7 @@ namespace WebAPI.DTO.Customer;
 
 public class CustomerPostDTO
 {
-    [MaxLength(30)]
+    [Required(ErrorMessage = "The Customer must have a name")]
+    [MaxLength(30, ErrorMessage = "Can't be longer than 30 characters")]
     public string? CustomerName { get; set; }
 }
