@@ -8,5 +8,6 @@
   "fetchMethod": "POST",
   "fetchHeaders": {
       "Content-Type": "application/json"
-    }
+    },
+  "validMessage": ""
 }

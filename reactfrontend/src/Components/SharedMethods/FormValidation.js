@@ -1,19 +1,9 @@
 import appSettings from '../../Settings/SharedMethods/FormValidation.json'
-
-const formatString= (stringToChange, ...args) => {
-    let newString = stringToChange;
-    console.log(stringToChange, args);
-    for(let i = 1; i <= args.length; i++)
-    {
-        newString = newString.split("{"+i+"}").join(`${args[i-1]}`);
-    }
-
-    return newString;
-}
+import { formatString } from './FormatString';
 
 export const minuteValidation = AntalMinuter =>
 {
-    let returnMessge = "";
+    let returnMessge = appSettings.validMessage;
     if(!AntalMinuter || AntalMinuter === 0)
     {
       returnMessge = appSettings.errMissingMinutes;
@@ -30,7 +20,7 @@ export const minuteValidation = AntalMinuter =>
 } 
 
 export const dateValidation = Date => {
-    let returnMessge = "";
+    let returnMessge = appSettings.validMessage;
     if(!Date)
     {
         returnMessge = appSettings.errDateMissing;
@@ -39,7 +29,7 @@ export const dateValidation = Date => {
 }
 
 export const projValidation = SelectedProject => {
-    let returnMessge = "";
+    let returnMessge = appSettings.validMessage;
     if(SelectedProject === 0)
     {
         returnMessge = appSettings.errProjMissing;
@@ -48,7 +38,7 @@ export const projValidation = SelectedProject => {
 }
 
 export const descValidation = description =>{
-    let returnMessge = "";
+    let returnMessge = appSettings.validMessage;
     if(description.length > appSettings.maxStrLength)
     {
         returnMessge = formatString(appSettings.errDescTooLong, appSettings.maxStrLength);

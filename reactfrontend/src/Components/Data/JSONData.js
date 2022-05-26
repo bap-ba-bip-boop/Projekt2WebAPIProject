@@ -1,6 +1,5 @@
 
 export const getData = async address => 
-
     fetch(address).then(response => {
         return response.json();
       }).then(data => {

@@ -35,21 +35,21 @@ export const TimeRegistrationEdit = props => {
     event.preventDefault();
 
     let minuteVal = minuteValidation(AntalMinuter);
-    if(minuteVal != "")
+    if(minuteVal != appSettings.validMessage)
     {
       setMinuteError(minuteVal);
       encoutneredErrors = true;
     }
 
     let dateVal = dateValidation(Datum);
-    if(dateVal != "")
+    if(dateVal != appSettings.validMessage)
     {
       setDateError(dateVal);
       encoutneredErrors = true;
     }
 
     let descVal = descValidation(Beskrivning);
-    if(descVal != "")
+    if(descVal != appSettings.validMessage)
     {
       setDescError(Beskrivning);
       encoutneredErrors = true;

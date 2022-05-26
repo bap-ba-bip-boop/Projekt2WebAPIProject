@@ -33,28 +33,28 @@ export const TimeRegistrationNew = props => {
     event.preventDefault();
 
     let minuteVal = minuteValidation(AntalMinuter);
-    if(minuteVal != "")
+    if(minuteVal != appSettings.validMessage)
     {
       setMinuteError(minuteVal);
       encoutneredErrors = true;
     }
 
     let dateVal = dateValidation(Date);
-    if(dateVal != "")
+    if(dateVal != appSettings.validMessage)
     {
       setDateError(dateVal);
       encoutneredErrors = true;
     }
 
     let projVal = projValidation(SelectedProject);
-    if(projVal != "")
+    if(projVal != appSettings.validMessage)
     {
       setProjError(projVal);
       encoutneredErrors = true;
     }
 
     let descVal = descValidation(Beskrivning);
-    if(descVal != "")
+    if(descVal != appSettings.validMessage)
     {
       setDescError(Beskrivning);
       encoutneredErrors = true;
