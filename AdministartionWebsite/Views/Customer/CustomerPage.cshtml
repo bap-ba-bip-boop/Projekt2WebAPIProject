@@ -2,7 +2,7 @@
 @model AdministartionWebsite.ViewModels.Customer.CustomerPageViewModel;
 
 <section class="customerPageContainer">
-    <h1 class="customerIndexTitle">Customer Name: @Model.CustomerName</h1>
+    <h1 class="customerIndexTitle">@Model.CustomerName</h1>
 
     <nav class="customerIndexButtonPanel">
         <a asp-area="" asp-controller="Customer" asp-action="CustomerNew" class="redirectButton">New</a>

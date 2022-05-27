@@ -76,7 +76,7 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_CustomerNew_With_Incorrect_ViewModel_Should_Return_ViewModel()
     {
-        string customerName = null;
+        string? customerName = default;
         var customerVM = new CustomerNewViewModel
         {
             CustomerName = customerName
@@ -122,7 +122,7 @@ public class CustomerControllerTest
     [TestMethod]
     public void When_Call_CustomerEdit_With_Incorrect_ViewModel_Should_Return_ViewModel()
     {
-        string customerName = null;
+        string? customerName = default;
         var customerVM = new CustomerEditViewModel
         {
             CustomerName = customerName

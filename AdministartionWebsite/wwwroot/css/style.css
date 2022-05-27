@@ -332,3 +332,166 @@
     text-align: center;
     padding: 1vh 0vw;
 }
+
+@media screen and (max-width: 700px){
+    .siteContainer {
+        align-items: center;
+        color: purple;
+        display: grid;
+        font-family:'Ubuntu', sans-serif;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-rows: 2fr 8fr 50px;
+        height: 100vh;
+        width: 98vw;
+    }
+    /*Header*/
+    .siteHeader
+    {
+
+        display: flex;
+        justify-content: space-between;
+        grid-area: header;
+        flex-direction: column;
+        margin: 2vh 1vw 1vh;
+        padding: 0vh 0vw 0vh 2vw;
+        text-align: center;
+    }
+    .indexContainer
+    {
+        display: grid;
+        grid-template-areas:
+            "title"
+            "cust"
+            "proj"
+            "timeReg";
+        grid-template-columns: 1fr;
+        grid-template-rows: 40px 2fr 2fr 1fr;
+        width: 100%;
+    }
+    /*CustomerIndexPage*/
+    .customerIndexContainer
+    {
+        display: grid;
+        grid-template-areas:
+            "title"
+            "buttons"
+            "content";
+        grid-template-rows: 40px 40px 1fr;
+        width: 100%;
+    }
+    /*customerNewContainer*/
+    .customerNewContainer
+    {
+        grid-template-areas:
+            "title"
+            "buttons"
+            "form";
+        grid-template-rows: 40px 40px 1fr;
+        width: 100%;
+    }
+    /*customerEditContainer*/
+    .customerEditContainer
+    {
+        grid-template-areas:
+            "title"
+            "buttons"
+            "form";
+        grid-template-rows: 40px 40px 1fr;
+        width: 100%;
+    }
+    
+    /*customerPageContainer*/
+    .customerPageContainer
+    {
+        grid-template-areas:
+            "title"
+            "buttons"
+            "projectList";
+        grid-template-rows: 40px 40px 1fr;
+        width: 100%;
+    }
+    .logoutButton
+    {
+        background-color: darkviolet;
+        border: none;
+        border-radius: 15px;
+        color: white;
+        font-weight: bold;
+        font-size: 1em;
+        margin: 0vh 0.1vw;
+        padding: 1vh 2vw;
+        width: 70%;
+        text-align: center;
+        text-decoration: none;
+    }
+    .customerIndexContainer
+    {
+        display: grid;
+        grid-template-areas:
+            "title"
+            "buttons"
+            "content";
+        grid-template-rows: 40px 1fr 5fr;
+        width: 100%;
+    }
+    .customerIndexButtonPanel
+    {
+        grid-area: buttons;
+        margin: 1vh 0vw 1vh 0vw;
+        text-align: center;
+        width: 100%;
+    }
+    .redirectButton
+    {
+        background-color: darkviolet;
+        border-radius: 15px;
+        color: white;
+        display: inline-block;
+        font-weight: bold;
+        margin: 0.25vh 0.5vw;
+        padding: 1vh 2vw;
+        text-align: center;
+        text-decoration: none;
+        width: 80%;
+    }
+    .smallRedirectButton
+    {
+        background-color: darkviolet;
+        border-radius: 15px;
+        color: white;
+        font-weight: bold;
+        margin: 0vh 1vw;
+        padding: 1vh 2vw;
+        text-align: right;
+        text-decoration: none;
+    }
+    .customerNewContainer
+    {
+        grid-template-areas:
+            "title"
+            "buttons"
+            "form";
+        grid-template-rows: 40px 40px 1fr;
+        width: 100%;
+    }
+    .formSubmit
+    {
+        background-color: darkviolet;
+        border-radius: 15px;
+        color: white;
+        display: inline-block;
+        font-size: 1em;
+        font-weight: bold;
+        margin: 1vh 0vw;
+        padding: 1vh 2vw;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+        border: none;
+        line-height: 1.6;
+        align-items: center;
+    }
+}
