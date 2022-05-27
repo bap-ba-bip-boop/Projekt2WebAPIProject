@@ -7,10 +7,7 @@ import {ButtonBar} from './Components/ButtonBar';
 import appSettings from './Settings/App.json';
 import'./Style/style.css';
 
-const appSettingslocation = './Settings/App.json';
-
 const App = () => {
-
   const [activePage, setActivePage] = useState(appSettings.startPage);
   const [currentRegId, setRegId] = useState(0);
   const [url, setCurrentUrl] = useState("");
@@ -20,7 +17,7 @@ const App = () => {
   }
   const setCurrentTimeReg = (newId) => {
     setRegId(newId);
-    setCurrentUrl(appSettings.apiUrl + `/${currentRegId}`)
+    setCurrentUrl(appSettings.apiUrl + `/${newId}`)
   }
 
   const deleteSelectedReg = (garbage) => {

@@ -40,7 +40,6 @@ _services
     .AddTransient<IDbLookupService, DbLookupService>();
 
 _services
-    .AddAutoMapper(typeof(CustomerProfile))
     .AddAutoMapper(typeof(ProjectProfile))
     .AddAutoMapper(typeof(TidsRegistreringProfile));
 
@@ -60,8 +59,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//==================================================================
-//Taget från Stack overflow, bör säkras kanske?
 app.UseCors( config =>
     config
         .AllowAnyMethod()
@@ -69,7 +66,6 @@ app.UseCors( config =>
         .SetIsOriginAllowed(origin => true) // allow any origin
         .AllowCredentials() // allow credentials
 );
-//==================================================================
 
 app.UseAuthorization();
 

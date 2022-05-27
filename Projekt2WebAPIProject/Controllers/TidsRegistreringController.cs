@@ -100,20 +100,4 @@ public class TidsRegistreringController : ControllerBase
                 () => _context.TidsRegistrerings!.Remove(regToRemove)
             );
     }
-    [HttpPatch]
-    [Route("{Id}")]
-    public IActionResult UpdateRegPropertyByID(int Id, [FromBody] JsonPatchDocument<TidsRegistrering> projectEntity)
-    {
-        var (status, regToPatch) = _lookup.VerifyItemID(
-            Id,
-            nameof(TidsRegistrering.TidsRegistreringId),
-            _context.TidsRegistrerings!
-            .ToList()
-        );
-        return (status == ItemExistStatus.ItemDoesNotExist) ?
-            NotFound() :
-            _methodWrapepr.NonSafeHTTPMEthodWrapper(
-                () => projectEntity.ApplyTo(regToPatch)
-            );
-    }
 }

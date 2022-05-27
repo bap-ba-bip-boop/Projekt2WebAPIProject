@@ -22,7 +22,5 @@ public class ProjectProfile : Profile
                         src => src.Customer!.CustomerName
                     )
             );
-        CreateMap<ProjectPostDTO, Project>();
-        CreateMap<ProjectPutDTO, Project>();
     }
 }
