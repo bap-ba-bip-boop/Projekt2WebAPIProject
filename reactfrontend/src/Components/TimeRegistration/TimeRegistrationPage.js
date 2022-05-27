@@ -5,8 +5,6 @@ import appSettings from '../../Settings/Components/TimeRegistration/TimeRegistra
 
 
 export const TimeRegistrationPage = props => {
-  
-    //const url = appSettings.apiUrl + `/${props.currentRegId}`;
     const [currentReg, setCurrentReg] = useState( null );
 
     useEffect(()=>{
