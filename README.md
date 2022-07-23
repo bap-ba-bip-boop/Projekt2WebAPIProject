@@ -5,7 +5,7 @@ Also implements an administration website written in .Net6 in a MVC-website
 
 I also wrote some unit tests to check response codes among other things
 
-Keywords
+**Keywords:**
 - Code First
 - SQL database
 - Automapper
