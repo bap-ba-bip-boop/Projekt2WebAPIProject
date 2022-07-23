@@ -1,4 +1,4 @@
-# Projekt2WebAPIProject
+# Web API Projekt
 A project made for a 'project course'. Made to handle projects and timesregistrations for customers.
 Implements an API for a React frontend where one does timeReg CRUDs.
 Also implements an administration website written in .Net6 in a MVC-website
